@@ -18,6 +18,13 @@ class TestCongressAPI(unittest.TestCase):
         self.api_key = "myApiKey"
         self.congress = CongressAPI(self.api_key)
 
+    def test_convert_name_to_session(self):
+        """Validate that the congressional name is translated to the session number."""
+        self.assertEqual(self.congress._convert_name_to_session("118th Congress"), "118")
+        self.assertEqual(self.congress._convert_name_to_session("22nd Congress"), "22")
+        self.assertEqual(self.congress._convert_name_to_session("81st Congress"), "81")
+        self.assertEqual(self.congress._convert_name_to_session("93rd Congress"), "93")
+
     @requests_mock.Mocker()
     def test_get_current_congresses_returns_list(self, m):
         """Validate that get_congresses returns list type."""

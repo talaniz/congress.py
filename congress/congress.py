@@ -30,6 +30,16 @@ class CongressAPI(object):
         self.bills_url = f"https://api.congress.gov/v3/bill?api_key={self.api_key}"
         self.congress_url = f"https://api.congress.gov/v3/congress?api_key={self.api_key}"
 
+    def _convert_name_to_session(self, congress_name):
+        """Convert the congress name, return the session number."""
+        suffixes = ["st", "nd", "rd", "th"]
+        congress_name = congress_name.replace(" Congress", "")
+
+        for suffix in suffixes:
+            if suffix in congress_name:
+                congress_name = congress_name.replace(suffix, "")
+        return congress_name
+
     def get_response(self, url):
         """Return the text response for a given endpoint."""
         r = requests.get(url)
