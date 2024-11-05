@@ -1,0 +1,312 @@
+{
+    "bills": [
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 615."
+            },
+            "number": "7437",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Fostering the Use of Technology to Uphold Regulatory Effectiveness in Supervision Act",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/7437?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 614."
+            },
+            "number": "100",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the Securities and Exchange Commission relating to \"Cybersecurity Risk Management, Strategy, Governance, and Incident Disclosure\".",
+            "type": "HJRES",
+            "updateDate": "2024-11-04",
+            "updateDateIncludingText": "2024-11-04",
+            "url": "https://api.congress.gov/v3/bill/118/hjres/100?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 613."
+            },
+            "number": "8340",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Housing Unhoused Disabled Veterans Act",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/8340?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 612."
+            },
+            "number": "4206",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Bank Safety Act of 2024",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/4206?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 611."
+            },
+            "number": "4551",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Protecting Investors\u2019 Personally Identifiable Information Act",
+            "type": "HR",
+            "updateDate": "2024-11-04",
+            "updateDateIncludingText": "2024-11-04",
+            "url": "https://api.congress.gov/v3/bill/118/hr/4551?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 610."
+            },
+            "number": "8446",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Critical Mineral Consistency Act of 2024",
+            "type": "HR",
+            "updateDate": "2024-11-04",
+            "updateDateIncludingText": "2024-11-04",
+            "url": "https://api.congress.gov/v3/bill/118/hr/8446?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 609."
+            },
+            "number": "7409",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "HEATS Act",
+            "type": "HR",
+            "updateDate": "2024-11-03",
+            "updateDateIncludingText": "2024-11-03",
+            "url": "https://api.congress.gov/v3/bill/118/hr/7409?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the Committee on Education and the Workforce, and in addition to the Committee on Energy and Commerce, for a period to be subsequently determined by the Speaker, in each case for consideration of such provisions as fall within the jurisdiction of the committee concerned."
+            },
+            "number": "10085",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To require that opioid overdose rescue kits be located at public institutions of higher education, and for other purposes.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10085?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Oversight and Accountability."
+            },
+            "number": "1561",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Condemning President Biden's remarks referring to President Trump's supporters as \"garbage\".",
+            "type": "HRES",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hres/1561?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Rules."
+            },
+            "number": "1560",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Providing for consideration of the bill (H.R. 8996) to enhance safety requirements for trains transporting hazardous materials, and for other purposes.",
+            "type": "HRES",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hres/1560?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Education and the Workforce."
+            },
+            "number": "1558",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Supporting the goals and ideals of October as \"National Domestic Violence Awareness Month\".",
+            "type": "HRES",
+            "updateDate": "2024-11-03",
+            "updateDateIncludingText": "2024-11-03",
+            "url": "https://api.congress.gov/v3/bill/118/hres/1558?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on the Judiciary."
+            },
+            "number": "10094",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To direct the Judicial Conference to submit a report examining an amendment to the Federal Rules of Evidence to further limit admissibility of evidence regarding an alleged victim's sexual behavior or predisposition and to improve privacy protections for admissible evidence.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10094?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Energy and Commerce."
+            },
+            "number": "10095",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To amend the Patient Protection and Affordable Care Act to reduce fraudulent enrollments in qualified health plans, and for other purposes.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10095?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Transportation and Infrastructure."
+            },
+            "number": "10087",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To amend the Robert T. Stafford Disaster Relief and Emergency Assistance Act to provide for certain procedures following the declaration of a major disaster, and for other purposes.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10087?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Armed Services."
+            },
+            "number": "10093",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To amend title 10, United States Code, to direct the Secretary of Defense to include certain tests as part of the periodic health assessments provided to members of the Armed Forces.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10093?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the Committee on Natural Resources, and in addition to the Committee on Agriculture, for a period to be subsequently determined by the Speaker, in each case for consideration of such provisions as fall within the jurisdiction of the committee concerned."
+            },
+            "number": "10089",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To ensure that there is no net gain in Federal land ownership in any fiscal year, and for other purposes.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10089?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Energy and Commerce."
+            },
+            "number": "10096",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To amend title XIX of the Social Security Act to ensure access to immunizations under the Medicaid program and the Vaccines for Children program, and for other purposes.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10096?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Oversight and Accountability."
+            },
+            "number": "10092",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To require agencies that use, fund, or oversee algorithms to have an office of civil rights focused on bias, discrimination, and other harms of algorithms, and for other purposes.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10092?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Natural Resources."
+            },
+            "number": "10084",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "To extend the authorization of the African American Civil Rights Network.",
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10084?format=json"
+        },
+        {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Referred to the House Committee on Education and the Workforce."
+            },
+            "number": "10080",
+            "originChamber": "House",
+            "originChamberCode": "H",
+            "title": "Improving Access to Higher Education Act",
+            "type": "HR",
+            "updateDate": "2024-11-05",
+            "updateDateIncludingText": "2024-11-05",
+            "url": "https://api.congress.gov/v3/bill/118/hr/10080?format=json"
+        }
+    ],
+    "pagination": {
+        "count": 409742,
+        "next": "https://api.congress.gov/v3/bill?offset=20&limit=20&format=json"
+    },
+    "request": {
+        "contentType": "application/json",
+        "format": "json"
+    }
+}
