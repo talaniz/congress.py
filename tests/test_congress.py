@@ -16,6 +16,7 @@ class TestCongressAPI(unittest.TestCase):
 
     def setUp(self):
         self.api_key = "myApiKey"
+        self.congress = CongressAPI(self.api_key)
 
     @requests_mock.Mocker()
     def test_get_current_congresses_returns_list(self, m):
@@ -25,9 +26,8 @@ class TestCongressAPI(unittest.TestCase):
         d = f.read()
         f.close()
 
-        congress = CongressAPI(self.api_key)
         m.get(congresss_url, text=d)
-        response = congress.get_congresses()
+        response = self.congress.get_congresses()
         self.assertIsInstance(response, list)
 
     @requests_mock.Mocker()
@@ -39,8 +39,7 @@ class TestCongressAPI(unittest.TestCase):
         f.close()
 
         m.get(bills_url, text=d)
-        congress = CongressAPI(self.api_key)
-        response = congress.get_bills()
+        response = self.congress.get_bills()
         self.assertIsInstance(response, list)
 
 if __name__ == '__main__':
