@@ -4,15 +4,18 @@ import requests_mock
 
 from congress.congress import CongressAPI
 
-class TestCongress(unittest.TestCase):
-
-    def setUp(self):
-        self.api_key = "myApiKey"
+class TestCongressAPIValidation(unittest.TestCase):
 
     def test_congress_initialization_validates_api_key(self):
         """Ensure the Congress object is initialized with an API key."""
         with self.assertRaises(TypeError):
             congress = CongressAPI()
+
+
+class TestCongressAPI(unittest.TestCase):
+
+    def setUp(self):
+        self.api_key = "myApiKey"
 
     @requests_mock.Mocker()
     def test_get_current_congresses_returns_list(self, m):
@@ -20,6 +23,7 @@ class TestCongress(unittest.TestCase):
         congresss_url = f"https://api.congress.gov/v3/congress?api_key={self.api_key}"
         f = open('tests/congress_responses.txt', 'r')
         d = f.read()
+        f.close()
 
         congress = CongressAPI(self.api_key)
         m.get(congresss_url, text=d)
@@ -32,6 +36,7 @@ class TestCongress(unittest.TestCase):
         bills_url = f"https://api.congress.gov/v3/bill?api_key={self.api_key}"
         f = open('tests/bill_responses.txt', 'r')
         d = f.read()
+        f.close()
 
         m.get(bills_url, text=d)
         congress = CongressAPI(self.api_key)
