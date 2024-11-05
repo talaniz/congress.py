@@ -1,26 +1,5 @@
 import json
-import os
 import requests
-
-API_TOKEN = os.environ['CONGRESS_KEY']
-
-def get_bills():
-    """Return a list of bills for the recent congress"""
-    BILLS_URL = f"https://api.congress.gov/v3/bill?api_key={API_TOKEN}"
-
-    response = requests.get(BILLS_URL)
-
-    current_bills = json.loads(response.text)
-
-    for bill in current_bills['bills']:
-        number = bill['number']
-        title = bill['title']
-        bill_type = bill['type']
-        url = bill['url']
-        print(bill_type + number + ": " + title + "\n" + "URL: " + url + "\n")
-
-def get_congress():
-    """Return a list of congressional sessions."""
 
 class CongressAPI(object):
     """An instance of a Congress API object."""
