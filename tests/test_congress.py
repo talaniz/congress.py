@@ -1,5 +1,7 @@
 import unittest
 
+from collections import namedtuple
+
 import requests_mock
 
 from congress.congress import CongressAPI
@@ -24,6 +26,52 @@ class TestCongressAPI(unittest.TestCase):
         self.assertEqual(self.congress._convert_name_to_session("22nd Congress"), "22")
         self.assertEqual(self.congress._convert_name_to_session("81st Congress"), "81")
         self.assertEqual(self.congress._convert_name_to_session("93rd Congress"), "93")
+
+    def test_convert_congress_to_tuple(self):
+        """Checks that a dictionary can be converted to a series of named tuples."""
+        congress = {
+            "endYear": "2024",
+            "name": "118th Congress",
+            "sessions": [
+                {
+                    "chamber": "House of Representatives",
+                    "endDate": "2024-01-03",
+                    "number": 1,
+                    "startDate": "2023-01-03",
+                    "type": "R"
+                },
+                {
+                    "chamber": "Senate",
+                    "endDate": "2024-01-03",
+                    "number": 1,
+                    "startDate": "2023-01-03",
+                    "type": "R"
+                },
+                {
+                    "chamber": "Senate",
+                    "number": 2,
+                    "startDate": "2024-01-03",
+                    "type": "R"
+                },
+                {
+                    "chamber": "House of Representatives",
+                    "number": 2,
+                    "startDate": "2024-01-03",
+                    "type": "R"
+                }
+            ],
+            "startYear": "2023",
+            "url": "https://api.congress.gov/v3/congress/118?format=json"
+        }
+        Chamber = namedtuple("Chamber", "name chamber")
+        expected_chambers = tuple([Chamber("118th Congress", "House of Representatives"),
+                                  Chamber("118th Congress", "Senate")
+                                  ])
+
+        chambers = self.congress._convert_congress_to_tuple(congress)
+        
+        for chamber in expected_chambers:
+            self.assertIn(chamber, chambers)
 
     @requests_mock.Mocker()
     def test_get_current_congresses_returns_list(self, m):
