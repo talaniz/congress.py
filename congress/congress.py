@@ -23,15 +23,16 @@ class CongressAPI(object):
 
     def _convert_congress_to_tuple(self, congress):
         """Convert a dict with Congressional session information into a tuple, house and senate."""
-        Session = namedtuple("Session", ['name', 'chambers'])
+        Session = namedtuple("Session", ['name', 'endYear', 'chambers'])
         name = congress['name']
+        endYear = congress['endYear']
         chambers = []
         for session in congress['sessions']:
             if session['chamber'] not in chambers:
                 chambers.append(session['chamber'])
             else:
                 continue
-        res = Session(name, chambers)
+        res = Session(name, endYear, chambers)
         return res
         
 

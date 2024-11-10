@@ -64,8 +64,8 @@ class TestCongressAPI(unittest.TestCase):
             "startYear": "2023",
             "url": "https://api.congress.gov/v3/congress/118?format=json"
         }
-        Session = namedtuple("Session", ['name', 'chambers'])
-        expected_session = Session("118th Congress", ["House of Representatives", "Senate"])
+        Session = namedtuple("Session", ['name', 'endYear', 'chambers'])
+        expected_session = Session("118th Congress", "2024",["House of Representatives", "Senate"])
 
         session = self.congress._convert_congress_to_tuple(congress)
 
