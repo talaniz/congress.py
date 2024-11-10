@@ -20,6 +20,7 @@ class TestCongressAPI(unittest.TestCase):
     def setUp(self):
         self.api_key = "myApiKey"
         self.congress = CongressAPI(self.api_key)
+        self.Session = namedtuple("Session", ['name', 'endYear', 'chambers'])
 
     def test_convert_name_to_session(self):
         """Validate that the congressional name is translated to the session number."""
@@ -64,12 +65,24 @@ class TestCongressAPI(unittest.TestCase):
             "startYear": "2023",
             "url": "https://api.congress.gov/v3/congress/118?format=json"
         }
-        Session = namedtuple("Session", ['name', 'endYear', 'chambers'])
-        expected_session = Session("118th Congress", "2024",["House of Representatives", "Senate"])
+        expected_session = self.Session("118th Congress", "2024",["House of Representatives", "Senate"])
 
         session = self.congress._convert_congress_to_tuple(congress)
 
         self.assertEqual(session, expected_session)
+
+    @requests_mock.Mocker()
+    def test_get_current_session_returns_most_current_session(self, m):
+        """Test that the call to get_current_session returns the most recent one."""
+        congresss_url = f"https://api.congress.gov/v3/congress?api_key={self.api_key}"
+        f = open('tests/congress_responses.txt', 'r')
+        d = f.read()
+        f.close()
+
+        m.get(congresss_url, text=d)
+        current_session = self.congress.get_current_session()
+        expected_current_session = self.Session("118th Congress", "2024",["House of Representatives", "Senate"])
+        self.assertEqual(current_session, expected_current_session)
 
     @requests_mock.Mocker()
     def test_get_current_congresses_returns_list(self, m):

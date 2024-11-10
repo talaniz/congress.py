@@ -35,6 +35,11 @@ class CongressAPI(object):
         res = Session(name, endYear, chambers)
         return res
         
+    def get_current_session(self):
+        """Return the current congressional session."""
+        sessions = self.get_congresses()
+        current_congress = self._convert_congress_to_tuple(sessions[0])
+        return current_congress
 
     def get_response(self, url):
         """Return the text response for a given endpoint."""
@@ -44,6 +49,7 @@ class CongressAPI(object):
     def get_congresses(self):
         """Return a list of all active congresstional sessions."""
         data = self.get_response(self.congress_url)
+        print(data)
         return data['congresses']
 
     def get_bills(self):
