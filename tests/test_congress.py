@@ -6,6 +6,7 @@ import requests_mock
 
 from congress.congress import CongressAPI
 
+
 class TestCongressAPIValidation(unittest.TestCase):
 
     def test_congress_initialization_validates_api_key(self):
@@ -63,15 +64,12 @@ class TestCongressAPI(unittest.TestCase):
             "startYear": "2023",
             "url": "https://api.congress.gov/v3/congress/118?format=json"
         }
-        Chamber = namedtuple("Chamber", "name chamber")
-        expected_chambers = tuple([Chamber("118th Congress", "House of Representatives"),
-                                  Chamber("118th Congress", "Senate")
-                                  ])
+        Session = namedtuple("Session", ['name', 'chambers'])
+        expected_session = Session("118th Congress", ["House of Representatives", "Senate"])
 
-        chambers = self.congress._convert_congress_to_tuple(congress)
-        
-        for chamber in expected_chambers:
-            self.assertIn(chamber, chambers)
+        session = self.congress._convert_congress_to_tuple(congress)
+
+        self.assertEqual(session, expected_session)
 
     @requests_mock.Mocker()
     def test_get_current_congresses_returns_list(self, m):

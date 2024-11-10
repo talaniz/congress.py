@@ -1,6 +1,8 @@
 import json
 import requests
 
+from collections import namedtuple
+
 class CongressAPI(object):
     """An instance of a Congress API object."""
 
@@ -18,10 +20,20 @@ class CongressAPI(object):
             if suffix in congress_name:
                 congress_name = congress_name.replace(suffix, "")
         return congress_name
-    
+
     def _convert_congress_to_tuple(self, congress):
         """Convert a dict with Congressional session information into a tuple, house and senate."""
-        pass
+        Session = namedtuple("Session", ['name', 'chambers'])
+        name = congress['name']
+        chambers = []
+        for session in congress['sessions']:
+            if session['chamber'] not in chambers:
+                chambers.append(session['chamber'])
+            else:
+                continue
+        res = Session(name, chambers)
+        return res
+        
 
     def get_response(self, url):
         """Return the text response for a given endpoint."""
