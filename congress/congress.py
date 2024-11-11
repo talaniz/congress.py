@@ -52,7 +52,8 @@ class CongressAPI(object):
         data = self.get_response(f"{self.base_url}?api_key={self.api_key}")
         return data['congresses']
 
-    def get_bills(self):
+    def get_bills(self, session=None):
         """Return a list of bills for a given congressional session."""
-        data = self.get_response(self.bills_url)
-        return data['bills']
+        if session is None:
+            data = self.get_response(self.bills_url)
+            return data['bills']

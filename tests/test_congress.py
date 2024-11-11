@@ -31,6 +31,7 @@ class TestCongressAPI(unittest.TestCase):
 
     def test_convert_congress_to_tuple(self):
         """Checks that a dictionary can be converted to a series of named tuples."""
+        # TODO: the dates here should be dynamically calculated or this will fail next year
         congress = {
             "endYear": "2024",
             "name": "118th Congress",
