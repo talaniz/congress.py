@@ -7,9 +7,9 @@ class CongressAPI(object):
     """An instance of a Congress API object."""
 
     def __init__(self, api_key):
+        self.base_url = "https://api.congress.gov/v3/congress"
         self.api_key = api_key
         self.bills_url = f"https://api.congress.gov/v3/bill?api_key={self.api_key}"
-        self.congress_url = f"https://api.congress.gov/v3/congress?api_key={self.api_key}"
 
     def _convert_name_to_session(self, congress_name):
         """Convert the congress name, return the session number."""
@@ -34,11 +34,12 @@ class CongressAPI(object):
                 continue
         res = Session(name, endYear, chambers)
         return res
-        
+
     def get_current_session(self):
         """Return the current congressional session."""
-        sessions = self.get_congresses()
-        current_congress = self._convert_congress_to_tuple(sessions[0])
+        res = self.get_response(f"{self.base_url}/current?api_key={self.api_key}")
+        congresses = res['congresses']
+        current_congress = self._convert_congress_to_tuple(congresses[0])
         return current_congress
 
     def get_response(self, url):
@@ -48,8 +49,7 @@ class CongressAPI(object):
 
     def get_congresses(self):
         """Return a list of all active congresstional sessions."""
-        data = self.get_response(self.congress_url)
-        print(data)
+        data = self.get_response(f"{self.base_url}?api_key={self.api_key}")
         return data['congresses']
 
     def get_bills(self):

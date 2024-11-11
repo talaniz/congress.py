@@ -74,7 +74,7 @@ class TestCongressAPI(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_current_session_returns_most_current_session(self, m):
         """Test that the call to get_current_session returns the most recent one."""
-        congresss_url = f"https://api.congress.gov/v3/congress?api_key={self.api_key}"
+        congresss_url = f"https://api.congress.gov/v3/congress/current?api_key={self.api_key}"
         f = open('tests/congress_responses.txt', 'r')
         d = f.read()
         f.close()
@@ -98,7 +98,7 @@ class TestCongressAPI(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_bills_returns_list(self,m):
-        """Validate get_bills returns a list of sessions."""
+        """Validate get_bills returns a list of bills."""
         bills_url = f"https://api.congress.gov/v3/bill?api_key={self.api_key}"
         f = open('tests/bill_responses.txt', 'r')
         d = f.read()
