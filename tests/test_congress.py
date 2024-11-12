@@ -23,6 +23,12 @@ class TestCongressAPI(unittest.TestCase):
         self.congress = CongressAPI(self.api_key)
         self.Session = namedtuple("Session", ['name', 'endYear', 'chambers'])
 
+    def return_mock_file_data(self, filename):
+        """Open the file with mock data and return the contets."""
+        with open(filename, 'r') as f:
+            d = f.read()
+            return d
+
     def test_convert_name_to_session(self):
         """Validate that the congressional name is translated to the session number."""
         self.assertEqual(self.congress._convert_name_to_session("118th Congress"), "118")
@@ -77,9 +83,7 @@ class TestCongressAPI(unittest.TestCase):
     def test_get_current_session_returns_most_current_session(self, m):
         """Test that the call to get_current_session returns the most recent one."""
         congresss_url = f"https://api.congress.gov/v3/congress/current?api_key={self.api_key}"
-        f = open('tests/congress_responses.txt', 'r')
-        d = f.read()
-        f.close()
+        d = self.return_mock_file_data('tests/congress_responses.txt')
 
         m.get(congresss_url, text=d)
         current_session = self.congress.get_current_session()
@@ -90,9 +94,7 @@ class TestCongressAPI(unittest.TestCase):
     def test_get_current_congresses_returns_list(self, m):
         """Validate that get_congresses returns list type."""
         congresss_url = f"https://api.congress.gov/v3/congress?api_key={self.api_key}"
-        f = open('tests/congress_responses.txt', 'r')
-        d = f.read()
-        f.close()
+        d = self.return_mock_file_data('tests/congress_responses.txt')
 
         m.get(congresss_url, text=d)
         response = self.congress.get_congresses()
@@ -102,9 +104,7 @@ class TestCongressAPI(unittest.TestCase):
     def test_get_bills_returns_list(self,m):
         """Validate get_bills returns a list of bills."""
         bills_url = f"https://api.congress.gov/v3/bill?api_key={self.api_key}"
-        f = open('tests/bill_responses.txt', 'r')
-        d = f.read()
-        f.close()
+        d = self.return_mock_file_data('tests/bill_responses.txt')
 
         m.get(bills_url, text=d)
         response = self.congress.get_bills()
