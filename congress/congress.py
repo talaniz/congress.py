@@ -1,7 +1,11 @@
+"""Module for managing API calls to the Congress API."""
+
 import json
 import requests
 
 from collections import namedtuple
+
+from congress.bills import Bill
 
 class CongressAPI(object):
     """An instance of a Congress API object."""
@@ -56,4 +60,7 @@ class CongressAPI(object):
         """Return a list of bills for a given congressional session."""
         if session is None:
             data = self.get_response(self.bills_url)
+            bill = Bill()
+            return [bill]
+        else:
             return data['bills']

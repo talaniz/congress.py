@@ -5,6 +5,7 @@ from collections import namedtuple
 import requests_mock
 
 from congress.congress import CongressAPI
+from congress.bills import Bill
 
 
 class TestCongressAPIValidation(unittest.TestCase):
@@ -107,7 +108,9 @@ class TestCongressAPI(unittest.TestCase):
 
         m.get(bills_url, text=d)
         response = self.congress.get_bills()
+
         self.assertIsInstance(response, list)
+        self.assertIsInstance(response[0], Bill)
 
 if __name__ == '__main__':
     unittest.main()
