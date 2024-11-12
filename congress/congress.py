@@ -58,10 +58,15 @@ class CongressAPI(object):
 
     def get_bills(self, session=None):
         """Return a list of bills for a given congressional session."""
+        res = []
         if session is None:
             data = self.get_response(self.bills_url)
-            first_bill = data['bills'][0]
-            bill = Bill(first_bill['congress'], first_bill['latestAction'])
-            return [bill]
+            bills = data['bills']
+            for bill in bills:
+                bill = Bill(bill['congress'], bill['latestAction'], bill['number'],
+                            bill['originChamber'], bill['title'], bill['type'],
+                            bill['updateDate'], bill['updateDateIncludingText'], bill['url'])
+                res.append(bill)
+            return res
         else:
             return data['bills']

@@ -111,10 +111,24 @@ class TestCongressAPI(unittest.TestCase):
         first_bill = response[0]
 
         self.assertIsInstance(response, list)
+        self.assertEqual(len(response), 20)
+        
         self.assertIsInstance(first_bill, Bill)
         self.assertEqual(first_bill.congress, 118)
-
         self.assertIsInstance(first_bill.latest_action, dict)
+        self.assertEqual(first_bill.latest_action['actionDate'], "2024-11-01")
+        self.assertEqual(first_bill.latest_action['text'],
+                         "Placed on the Union Calendar, Calendar No. 615."
+                         )
+        self.assertEqual(first_bill.number, "7437")
+        self.assertEqual(first_bill.origin_chamber, "House")
+        self.assertEqual(first_bill.title,
+                         "Fostering the Use of Technology to Uphold Regulatory Effectiveness in Supervision Act"
+                         )
+        self.assertEqual(first_bill.bill_type, "HR")
+        self.assertEqual(first_bill.update_date, "2024-11-02")
+        self.assertEqual(first_bill.update_including_text, "2024-11-02")
+        self.assertEqual(first_bill.url, "https://api.congress.gov/v3/bill/118/hr/7437?format=json")
 
 if __name__ == '__main__':
     unittest.main()
