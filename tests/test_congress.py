@@ -108,9 +108,13 @@ class TestCongressAPI(unittest.TestCase):
 
         m.get(bills_url, text=d)
         response = self.congress.get_bills()
+        first_bill = response[0]
 
         self.assertIsInstance(response, list)
-        self.assertIsInstance(response[0], Bill)
+        self.assertIsInstance(first_bill, Bill)
+        self.assertEqual(first_bill.congress, 118)
+
+        self.assertIsInstance(first_bill.latest_action, dict)
 
 if __name__ == '__main__':
     unittest.main()
