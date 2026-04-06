@@ -79,6 +79,7 @@ SDK test script (TODO)
 Most developers treat APIs like raw JSON pipes.
 
 This project explores a different approach:
+
 	•	turning legislative data into structured, queryable objects
 	•	building a foundation for higher-level insights
 	•	bridging raw data → usable intelligence
@@ -88,6 +89,7 @@ This project explores a different approach:
 Open to ideas, improvements, and extensions.
 
 If you have thoughts on:
+
 	•	better abstractions
 	•	additional endpoints
 	•	data modeling
