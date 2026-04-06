@@ -1,6 +1,15 @@
 """Module to manage congressional bill data."""
+from dataclasses import dataclass
 
-from collections import namedtuple
 
-Bill = namedtuple('Bill', ['congress', 'latest_action', 'number', 'origin_chamber',
-                           'title', 'bill_type', 'update_date', 'update_including_text', 'url'])
+@dataclass
+class Bill:
+    congress: int
+    latest_action: str
+    number: str
+    origin_chamber: str
+    title: str
+    bill_type: str
+    update_date: str
+    update_including_text: bool
+    url: str

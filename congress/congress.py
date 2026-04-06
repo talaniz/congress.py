@@ -63,9 +63,17 @@ class CongressAPI(object):
             data = self.get_response(self.bills_url)
             bills = data['bills']
             for bill in bills:
-                bill = Bill(bill['congress'], bill['latestAction'], bill['number'],
-                            bill['originChamber'], bill['title'], bill['type'],
-                            bill['updateDate'], bill['updateDateIncludingText'], bill['url'])
+                bill = Bill(
+                    congress=bill['congress'],
+                    latest_action=bill['latestAction'],
+                    number=bill['number'],
+                    origin_chamber=bill['originChamber'],
+                    title=bill['title'],
+                    bill_type=bill['type'],
+                    update_date=bill['updateDate'],
+                    update_including_text=bill['updateDateIncludingText'],
+                    url=bill['url']
+                )
                 res.append(bill)
             return res
         else:
