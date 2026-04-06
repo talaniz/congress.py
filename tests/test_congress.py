@@ -112,7 +112,7 @@ class TestCongressAPI(unittest.TestCase):
 
         self.assertIsInstance(response, list)
         self.assertEqual(len(response), 20)
-        
+
         self.assertIsInstance(first_bill, Bill)
         self.assertEqual(first_bill.congress, 118)
         self.assertIsInstance(first_bill.latest_action, dict)
