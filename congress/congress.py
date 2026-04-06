@@ -55,6 +55,25 @@ class CongressAPI(object):
         """Return a list of all active congresstional sessions."""
         data = self.get_response(f"{self.base_url}?api_key={self.api_key}")
         return data['congresses']
+    
+    def get_bill(self, congress: int, bill_type: str, number: int):
+        """Return a bill for a given congress, bill type and number."""
+        url = f"{self.base_url}/{congress}/bills/{bill_type}/{number}?api_key={self.api_key}"
+        data = self.get_response(url)
+        bill_data = data['bill']
+        bill = Bill(
+            congress=bill_data['congress'],
+            latest_action_date=bill_data["latestAction"]["actionDate"],
+            latest_action_text=bill_data["latestAction"]["text"],
+            number=bill_data['number'],
+            origin_chamber=bill_data['originChamber'],
+            title=bill_data['title'],
+            bill_type=bill_data['type'],
+            update_date=bill_data['updateDate'],
+            update_including_text=bill_data['updateDateIncludingText'],
+            url=bill_data['url']
+        )
+        return bill
 
     def get_bills(self, session=None):
         """Return a list of bills for a given congressional session."""
@@ -65,7 +84,8 @@ class CongressAPI(object):
             for bill in bills:
                 bill = Bill(
                     congress=bill['congress'],
-                    latest_action=bill['latestAction'],
+                    latest_action_date=bill["latestAction"]["actionDate"],
+                    latest_action_text=bill["latestAction"]["text"],
                     number=bill['number'],
                     origin_chamber=bill['originChamber'],
                     title=bill['title'],

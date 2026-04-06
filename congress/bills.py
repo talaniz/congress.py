@@ -5,7 +5,8 @@ from dataclasses import dataclass
 @dataclass
 class Bill:
     congress: int
-    latest_action: str
+    latest_action_date: str
+    latest_action_text: str
     number: str
     origin_chamber: str
     title: str

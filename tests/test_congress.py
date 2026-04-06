@@ -101,7 +101,7 @@ class TestCongressAPI(unittest.TestCase):
         self.assertIsInstance(response, list)
 
     @requests_mock.Mocker()
-    def test_get_bills_returns_list(self,m):
+    def test_get_bills_returns_list(self, m):
         """Validate get_bills returns a list of bills."""
         bills_url = f"https://api.congress.gov/v3/bill?api_key={self.api_key}"
         d = self.return_mock_file_data('tests/bill_responses.txt')
@@ -115,9 +115,8 @@ class TestCongressAPI(unittest.TestCase):
 
         self.assertIsInstance(first_bill, Bill)
         self.assertEqual(first_bill.congress, 118)
-        self.assertIsInstance(first_bill.latest_action, dict)
-        self.assertEqual(first_bill.latest_action['actionDate'], "2024-11-01")
-        self.assertEqual(first_bill.latest_action['text'],
+        self.assertEqual(first_bill.latest_action_date, "2024-11-01")
+        self.assertEqual(first_bill.latest_action_text,
                          "Placed on the Union Calendar, Calendar No. 615."
                          )
         self.assertEqual(first_bill.number, "7437")
