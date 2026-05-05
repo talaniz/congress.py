@@ -70,3 +70,16 @@ Suggested commit message:
 ```text
 Document SDK and MCP usage
 ```
+
+## Build Log Update
+
+At the end of this session, append an entry to `build/build_log.md` that includes:
+
+- Session number and title.
+- Goal.
+- Completed work.
+- Validation, including test commands and results.
+- Next recommended actions.
+- Any questions asked for clarification.
+- The clarifying answers received.
+- Fixes made during the session, especially fixes made after test failures or review feedback.
