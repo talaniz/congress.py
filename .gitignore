@@ -3,7 +3,6 @@
 **/__pycache__/
 .coverage
 *.egg-info/
-build/
 dist/
 htmlcov/
 */automate.code-workspace
