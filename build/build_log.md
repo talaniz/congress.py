@@ -23,3 +23,33 @@ Validation:
 Result: `7 passed in 0.02s`.
 
 Next recommended action: start Session 02 by adding `get_bill_actions` with tests.
+
+## Planning Reorganization - Complete
+
+Goal: reorganize build planning before CLI implementation while keeping product code unchanged.
+
+Completed work:
+
+- Kept `build/build_log.md` at the root of `build/`.
+- Moved SDK/API planning into `build/api/`.
+- Moved MCP planning into `build/mcp/`.
+- Created `build/cli/execution_plan.md` for CLI work.
+- Created `build/cli/01_add_cli_scaffold.md` for the next CLI implementation session.
+- Created `build/mcp/execution_plan.md` as the MCP planning placeholder.
+- Updated references that pointed to the old `build/execution_plan.md` path.
+- Left root `AGENTS.md` as the repo-wide guidance source.
+- Did not implement CLI behavior or add API endpoints.
+
+Validation:
+
+- Tests were not run because only build planning Markdown files were reorganized; product code was not touched.
+
+Next recommended action: start CLI implementation with `build/cli/01_add_cli_scaffold.md`.
+
+Clarification questions and answers:
+
+- No clarification questions were needed.
+
+Fixes made during the session:
+
+- Updated stale execution-plan references after moving the planning files into topic-specific folders.

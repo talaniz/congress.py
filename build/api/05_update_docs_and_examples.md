@@ -26,7 +26,9 @@ Add small examples where helpful.
 - `examples/demo_bill_lookup.py`
 - `examples/mcp_config.md`
 - `AGENTS.md`
-- `build/execution_plan.md` if the plan changes
+- `build/api/execution_plan.md` if the API plan changes
+- `build/cli/execution_plan.md` if CLI documentation scope changes
+- `build/mcp/execution_plan.md` if MCP documentation scope changes
 
 ## Acceptance Criteria
 
