@@ -53,3 +53,74 @@ Clarification questions and answers:
 Fixes made during the session:
 
 - Updated stale execution-plan references after moving the planning files into topic-specific folders.
+
+## 2026-05-05 - CLI 01: Add CLI Scaffold
+
+**Goal:**
+
+Add the initial CLI scaffold for existing `CongressClient` methods only.
+
+**Files changed:**
+
+- `src/congress_py/cli.py`
+- `src/congress_py/exceptions.py`
+- `pyproject.toml`
+- `tests/test_cli.py`
+- `README.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Created branch `feature/cli-scaffold`.
+- Added a Typer CLI module with the `congress` console script entry point.
+- Added read-only CLI commands for existing SDK methods:
+  - `congress congress current`
+  - `congress congress list`
+  - `congress bills list`
+  - `congress bills list --session 118`
+  - `congress bills get 118 hr 7437`
+- Added `congress configure` for writing `~/.congress/config.toml`.
+- Added CLI credential resolution in this order: `--api-key`, `CONGRESS_API_KEY`, `~/.congress/config.toml`.
+- Added project-specific authentication exceptions for missing API keys.
+- Added mocked CLI tests for argument parsing, client wiring, credential precedence, missing credentials, config-file loading, and config-file writing.
+- Updated README setup and CLI examples to match implemented behavior.
+- Did not add new API endpoints or MCP functionality.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Initial result: failed during collection because Typer was not installed in the local virtual environment.
+
+Fix: ran `.venv/bin/python -m pip install -e .` after adding the Typer dependency to `pyproject.toml`.
+
+Second result: `2 failed, 12 passed`. Failures found namedtuple JSON serialization as arrays and config-file path binding too early for tests.
+
+Fix: converted CLI output through a recursive JSON-compatible helper and changed config-file loading to resolve the default path at call time.
+
+Final result: `14 passed in 0.06s`.
+
+Additional validation:
+
+```bash
+.venv/bin/congress --help
+.venv/bin/congress congress current
+```
+
+Result: help displayed expected command groups; missing credentials produced the friendly non-zero error message.
+
+**Known issues / follow-ups:**
+
+- `requirements.txt` still contains the existing pinned development dependencies. The runtime Typer dependency is declared in `pyproject.toml`.
+- Future CLI sessions should add command coverage only after new SDK methods are implemented and tested.
+
+**Clarification questions and answers:**
+
+- Asked whether to use `build/cli/01_add_cli_scaffold.md` because the prompt also referenced `build/01_add_cli_scaffold.md`.
+- Answer received: yes, use `build/cli/01_add_cli_scaffold.md`.
+
+**Next recommended action:**
+
+Add the next SDK workflow from the API plan, then add matching CLI coverage in a later CLI session.

@@ -34,7 +34,19 @@ You’ll need an API key from the official Congress API.
 
 Set your environment variable:
 
-`export CONGRESS_KEY=your_api_key_here`
+`export CONGRESS_API_KEY=your_api_key_here`
+
+The CLI also supports saving a local key for developer convenience:
+
+```bash
+congress configure
+```
+
+CLI credential resolution order:
+
+1. `--api-key`
+2. `CONGRESS_API_KEY`
+3. `~/.congress/config.toml`
 
 ## 🧠 Usage
 
@@ -43,7 +55,7 @@ import os
 
 from congress_py import CongressClient
 
-client = CongressClient(os.environ["CONGRESS_KEY"])
+client = CongressClient(os.environ["CONGRESS_API_KEY"])
 
 # Get congressional sessions
 congresses = client.get_congresses()
@@ -52,6 +64,24 @@ print(congresses[0])
 # Get bills
 bills = client.get_bills()
 print(bills[0])
+```
+
+## 🖥️ CLI
+
+The package installs a `congress` command. Output is JSON by default.
+
+```bash
+congress congress current
+congress congress list
+congress bills list
+congress bills list --session 118
+congress bills get 118 hr 7437
+```
+
+You can pass an API key explicitly for a single command:
+
+```bash
+congress --api-key your_api_key_here bills get 118 hr 7437
 ```
 
 ## 🧪 Scripts
