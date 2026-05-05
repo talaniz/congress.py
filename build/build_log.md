@@ -124,3 +124,81 @@ Result: help displayed expected command groups; missing credentials produced the
 **Next recommended action:**
 
 Add the next SDK workflow from the API plan, then add matching CLI coverage in a later CLI session.
+
+## 2026-05-05 - Fix Current Congress Response Shape
+
+**Goal:**
+
+Fix `congress congress current` failing with `KeyError: 'congresses'` when the API returns the `/congress/current` item response shape.
+
+**Files changed:**
+
+- `src/congress_py/client.py`
+- `tests/test_congress.py`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Updated `CongressClient.get_current_session()` to accept the item-level `{"congress": ...}` response used by `/congress/current`.
+- Preserved compatibility with the existing list-level `{"congresses": [...]}` test fixture.
+- Added a regression test for the item-level current congress response shape.
+- Did not add new API endpoints, CLI commands, or MCP functionality.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result: `15 passed in 0.06s`.
+
+Additional validation:
+
+```bash
+.venv/bin/congress congress current
+```
+
+Result: local smoke test did not reach the API because no local API key was configured in this environment.
+
+**Known issues / follow-ups:**
+
+- Re-run `congress congress current` with a configured `CONGRESS_API_KEY` or `~/.congress/config.toml` to verify against the live API.
+
+**Next recommended action:**
+
+Commit and push this bug fix to the existing CLI scaffold branch.
+
+## 2026-05-05 - Fix Bill Item Response Optional URL
+
+**Goal:**
+
+Fix `congress bills get 118 hr 7437` failing with `KeyError: 'url'` when the single-bill endpoint omits the list-level `url` field.
+
+**Files changed:**
+
+- `src/congress_py/models.py`
+- `tests/test_congress.py`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Made `Bill.url` optional.
+- Updated `Bill.from_api_dict()` to use `bill_data.get("url")`.
+- Added a regression test for item-level bill responses without `url`.
+- Did not add new API endpoints, CLI commands, or MCP functionality.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result: `16 passed in 0.08s`.
+
+**Known issues / follow-ups:**
+
+- The single-bill endpoint may expose additional item-level fields that are not yet modeled.
+
+**Next recommended action:**
+
+Commit and push this bug fix with the current congress response-shape fix.

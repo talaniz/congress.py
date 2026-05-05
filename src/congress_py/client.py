@@ -51,8 +51,10 @@ class CongressClient:
     def get_current_session(self):
         """Return the current congressional session."""
         data = self._get(f"{self.congress_url}/current")
-        congresses = data["congresses"]
-        return self._convert_congress_to_tuple(congresses[0])
+        congress = data.get("congress")
+        if congress is None:
+            congress = data["congresses"][0]
+        return self._convert_congress_to_tuple(congress)
 
     def get_congresses(self):
         """Return a list of all active congressional sessions."""
