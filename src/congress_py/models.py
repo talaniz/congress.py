@@ -1,6 +1,7 @@
 """Data models for Congress API responses."""
 
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -14,7 +15,7 @@ class Bill:
     bill_type: str
     update_date: str
     update_including_text: bool
-    url: str
+    url: Optional[str] = None
 
     @classmethod
     def from_api_dict(cls, bill_data):
@@ -29,5 +30,5 @@ class Bill:
             bill_type=bill_data["type"],
             update_date=bill_data["updateDate"],
             update_including_text=bill_data["updateDateIncludingText"],
-            url=bill_data["url"],
+            url=bill_data.get("url"),
         )

@@ -91,6 +91,42 @@ class TestCongressClient(unittest.TestCase):
         self.assertEqual(current_session, expected_current_session)
 
     @requests_mock.Mocker()
+    def test_get_current_session_accepts_current_endpoint_item_response(self, m):
+        """Validate get_current_session accepts the /congress/current response shape."""
+        congress_url = f"https://api.congress.gov/v3/congress/current?api_key={self.api_key}"
+        current_congress = {
+            "endYear": "2026",
+            "name": "119th Congress",
+            "number": 119,
+            "sessions": [
+                {
+                    "chamber": "House of Representatives",
+                    "number": 1,
+                    "startDate": "2025-01-03",
+                    "type": "R"
+                },
+                {
+                    "chamber": "Senate",
+                    "number": 1,
+                    "startDate": "2025-01-03",
+                    "type": "R"
+                }
+            ],
+            "startYear": "2025",
+            "url": "https://api.congress.gov/v3/congress/119?format=json"
+        }
+
+        m.get(congress_url, json={"congress": current_congress})
+
+        current_session = self.congress.get_current_session()
+        expected_current_session = self.Session(
+            "119th Congress",
+            "2026",
+            ["House of Representatives", "Senate"]
+        )
+        self.assertEqual(current_session, expected_current_session)
+
+    @requests_mock.Mocker()
     def test_get_current_congresses_returns_list(self, m):
         """Validate that get_congresses returns list type."""
         congresss_url = f"https://api.congress.gov/v3/congress?api_key={self.api_key}"
@@ -142,6 +178,35 @@ class TestCongressClient(unittest.TestCase):
 
         self.assertIsInstance(response, Bill)
         self.assertEqual(response.number, "7437")
+
+    @requests_mock.Mocker()
+    def test_get_bill_accepts_item_response_without_url(self, m):
+        """Validate get_bill accepts item-level bill responses without url."""
+        bill_url = f"https://api.congress.gov/v3/bill/118/hr/7437?api_key={self.api_key}"
+        bill_data = {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 615."
+            },
+            "number": "7437",
+            "originChamber": "House",
+            "title": (
+                "Fostering the Use of Technology to Uphold Regulatory "
+                "Effectiveness in Supervision Act"
+            ),
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02"
+        }
+
+        m.get(bill_url, json={"bill": bill_data})
+
+        response = self.congress.get_bill(118, "hr", 7437)
+
+        self.assertIsInstance(response, Bill)
+        self.assertEqual(response.number, "7437")
+        self.assertIsNone(response.url)
 
 if __name__ == '__main__':
     unittest.main()
