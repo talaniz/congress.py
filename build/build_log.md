@@ -202,3 +202,42 @@ Result: `16 passed in 0.08s`.
 **Next recommended action:**
 
 Commit and push this bug fix with the current congress response-shape fix.
+
+## 2026-05-05 - Add Functional CLI Output Tests
+
+**Goal:**
+
+Add behavior-focused CLI output coverage before merging the CLI scaffold PR.
+
+**Files changed:**
+
+- `tests/test_cli.py`
+- `tests/TESTS.md`
+- `build/cli/01_add_cli_scaffold.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Added functional `Typer` `CliRunner` tests that parse command output as JSON.
+- Verified successful CLI commands exit with status code 0.
+- Verified mocked CLI JSON contains expected fields for `bills get` and `congress current`.
+- Updated the testing strategy to require CLI tests for user-visible behavior, including exit codes, friendly errors, and output shape.
+- Updated the CLI scaffold plan to require functional output tests.
+- Confirmed GitHub Actions runs `pytest` for pull requests to `main`, so these tests will run when pushed to the PR branch.
+- Did not add live network calls.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result: `18 passed in 0.08s`.
+
+**Known issues / follow-ups:**
+
+- None.
+
+**Next recommended action:**
+
+Review, then commit and push the accumulated fixes and test coverage when ready.

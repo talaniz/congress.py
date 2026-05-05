@@ -1,3 +1,4 @@
+import json
 import os
 import stat
 from collections import namedtuple
@@ -89,6 +90,51 @@ def test_bills_get_calls_existing_client_method(monkeypatch, tmp_path):
     assert result.exit_code == 0
     assert instances[0].calls == [("get_bill", 118, "hr", 7437)]
     assert '"number": "7437"' in result.output
+    assert "secret" not in result.output
+
+
+def test_bills_get_outputs_valid_json_with_expected_fields(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            ["--api-key", "secret", "bills", "get", "118", "hr", "7437"],
+        )
+
+    assert result.exit_code == 0
+    output = json.loads(result.output)
+    assert output["congress"] == 118
+    assert output["number"] == "7437"
+    assert output["bill_type"] == "HR"
+    assert output["title"] == "Test Bill"
+    assert output["latest_action_text"] == "Placed on the Union Calendar."
+    assert "secret" not in result.output
+
+
+def test_congress_current_outputs_valid_json_with_expected_fields(
+    monkeypatch, tmp_path
+):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            ["--api-key", "secret", "congress", "current"],
+        )
+
+    assert result.exit_code == 0
+    output = json.loads(result.output)
+    assert output == {
+        "chambers": ["House", "Senate"],
+        "endYear": "2024",
+        "name": "118th Congress",
+    }
+    assert instances[0].calls == [("get_current_session",)]
     assert "secret" not in result.output
 
 

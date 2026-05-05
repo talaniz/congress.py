@@ -63,6 +63,21 @@ Examples:
 
 Avoid modeling every field before the project needs it.
 
+## CLI Tests
+
+CLI tests should verify user-visible behavior through `Typer` `CliRunner` where possible.
+
+Examples:
+
+- Commands exit with the expected status code.
+- Successful commands emit valid JSON.
+- JSON output contains expected fields from mocked SDK responses.
+- Missing credentials produce friendly, non-zero errors.
+- Error messages and command output do not expose API keys or secrets.
+- CLI commands call `CongressClient` or mocked client methods instead of making live network calls.
+
+Prefer behavior-focused assertions over coverage padding. A small functional test that parses command output and checks meaningful fields is more useful than tests that only exercise internal helpers.
+
 ## MCP Tests
 
 MCP tests should verify the tool layer without depending on live API calls.

@@ -10,6 +10,7 @@ Add the initial CLI structure without implementing new API capabilities.
 - Wire the CLI to existing `CongressClient` methods only.
 - Add a minimal command such as showing help or fetching an already-supported bill workflow if appropriate.
 - Add tests for argument parsing and client wiring with mocks.
+- Add functional CLI output tests with `Typer` `CliRunner`.
 - Update README only for commands that actually exist.
 
 ## Files Likely to Change
@@ -26,6 +27,7 @@ Add the initial CLI structure without implementing new API capabilities.
 - Default tests do not require a live API key.
 - No new API endpoints are added.
 - CLI errors do not expose API keys.
+- At least one successful CLI command exits with status code 0 and emits valid JSON with expected fields from a mocked SDK response.
 
 ## Suggested Codex Prompt
 
@@ -37,6 +39,7 @@ Requirements:
 - Keep the CLI as a thin wrapper around CongressClient.
 - Add package entry point metadata.
 - Add mocked tests for argument parsing and client construction.
+- Add functional output tests that parse JSON from at least one successful command.
 - Update README only with implemented commands.
 - Run pytest and report any failures.
 ```
@@ -49,7 +52,7 @@ Run:
 .venv/bin/python -m pytest
 ```
 
-CLI tests should use mocks and should not call the live Congress API.
+CLI tests should use mocks and should not call the live Congress API. They should verify user-visible behavior, including exit codes, friendly error messages, and JSON output shape.
 
 ## Commit Guidance
 
