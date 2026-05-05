@@ -1,4 +1,4 @@
-# Congress SDK (Python)
+# congress_py
 
 A lightweight Python SDK for interacting with the United States Congress API.
 
@@ -21,9 +21,11 @@ This project provides a simple interface for retrieving and working with legisla
 Clone the repo and install dependencies:
 
 ```bash
-git clone https://github.com/<your-username>/congress-sdk.git
-cd congress-sdk
-pip install -r requirements.txt
+git clone https://github.com/<your-username>/congress.py.git
+cd congress.py
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m pip install -e .
 ```
 
 ## 🔑 Setup
@@ -37,17 +39,18 @@ Set your environment variable:
 ## 🧠 Usage
 
 ```
-from congress.congress import CongressAPI
 import os
 
-api = CongressAPI(os.environ["CONGRESS_KEY"])
+from congress_py import CongressClient
+
+client = CongressClient(os.environ["CONGRESS_KEY"])
 
 # Get congressional sessions
-congresses = api.get_congresses()
+congresses = client.get_congresses()
 print(congresses[0])
 
 # Get bills
-bills = api.get_bills()
+bills = client.get_bills()
 print(bills[0])
 ```
 
@@ -65,7 +68,7 @@ SDK test script (TODO)
 `python scripts/test_congress_sdk.py`
 
 ## 🧪 Testing
-`pytest`
+`.venv/bin/python -m pytest`
 
 ## 🧭 Roadmap
 	•	Normalize API responses into domain models (Bill, etc.)

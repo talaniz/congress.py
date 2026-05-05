@@ -1,26 +1,26 @@
+import json
 import unittest
 
 from collections import namedtuple
 
 import requests_mock
 
-from congress.congress import CongressAPI
-from congress.bills import Bill
+from congress_py import Bill, CongressClient
 
 
-class TestCongressAPIValidation(unittest.TestCase):
+class TestCongressClientValidation(unittest.TestCase):
 
     def test_congress_initialization_validates_api_key(self):
         """Ensure the Congress object is initialized with an API key."""
         with self.assertRaises(TypeError):
-            congress = CongressAPI()
+            CongressClient()
 
 
-class TestCongressAPI(unittest.TestCase):
+class TestCongressClient(unittest.TestCase):
 
     def setUp(self):
         self.api_key = "myApiKey"
-        self.congress = CongressAPI(self.api_key)
+        self.congress = CongressClient(self.api_key)
         self.Session = namedtuple("Session", ['name', 'endYear', 'chambers'])
 
     def return_mock_file_data(self, filename):
@@ -128,6 +128,20 @@ class TestCongressAPI(unittest.TestCase):
         self.assertEqual(first_bill.update_date, "2024-11-02")
         self.assertEqual(first_bill.update_including_text, "2024-11-02")
         self.assertEqual(first_bill.url, "https://api.congress.gov/v3/bill/118/hr/7437?format=json")
+
+    @requests_mock.Mocker()
+    def test_get_bill_returns_single_bill(self, m):
+        """Validate get_bill fetches a single bill from the /bill endpoint."""
+        bill_url = f"https://api.congress.gov/v3/bill/118/hr/7437?api_key={self.api_key}"
+        d = self.return_mock_file_data('tests/bill_responses.txt')
+        bill_data = json.loads(d)["bills"][0]
+
+        m.get(bill_url, json={"bill": bill_data})
+
+        response = self.congress.get_bill(118, "hr", 7437)
+
+        self.assertIsInstance(response, Bill)
+        self.assertEqual(response.number, "7437")
 
 if __name__ == '__main__':
     unittest.main()

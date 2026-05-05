@@ -4,7 +4,7 @@
 
 This repository is a small Python SDK for the official Congress API.
 
-- `congress/`: source package. `congress.py` contains the API client, and `bills.py` contains the `Bill` data model and bill-fetch helpers.
+- `src/congress_py/`: source package. `client.py` contains `CongressClient`, and `models.py` contains the `Bill` data model.
 - `tests/`: unit tests and static mocked API responses, including `tests/test_congress.py`, `tests/congress_responses.txt`, and `tests/bill_responses.txt`.
 - `scripts/`: ad hoc development scripts for raw API checks.
 - `pyproject.toml`: package metadata and build configuration.
@@ -28,7 +28,7 @@ No formatter is currently configured. The GitHub workflow runs `flake8`, so keep
 
 Tests use `unittest` with `pytest` as the runner and `requests-mock` for HTTP isolation. Keep network calls mocked in unit tests; add or update fixture response files under `tests/` when API response shapes change.
 
-Coverage is configured in `pytest.ini` with branch coverage enabled for `congress/*.py` and `fail_under = 80`. Run `.venv/bin/python -m pytest` before opening a pull request.
+Coverage is configured in `pytest.ini` with branch coverage enabled for `src/congress_py` and `fail_under = 80`. Run `.venv/bin/python -m pytest` before opening a pull request.
 
 ## Commit & Pull Request Guidelines
 

@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "congress-sdk"
+name = "congress-py"
 version = "0.1.0"
 description = "A lightweight Python SDK for interacting with the United States Congress API."
 readme = "README.md"
@@ -26,4 +26,5 @@ dev = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["congress*"]
+where = ["src"]
+include = ["congress_py*"]
