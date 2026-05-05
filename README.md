@@ -1,3 +1,5 @@
+![Tests](https://github.com/talaniz/congress.py/actions/workflows/python-package.yml/badge.svg)
+
 # congress_py
 
 A lightweight Python SDK for interacting with the United States Congress API.
