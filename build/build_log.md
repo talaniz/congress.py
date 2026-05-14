@@ -291,7 +291,61 @@ Result: `22 passed in 0.11s`.
 **Fixes made during the session:**
 
 - No test failures occurred; the first validation run passed.
+- After reviewing the official Congress.gov API documentation, aligned `BillAction.source_system` and its test fixture with the documented `sourceSystem` object shape containing `code` and `name`.
 
 **Next recommended action:**
 
 Review the SDK bill workflow changes, then add matching CLI coverage in a later CLI session if desired.
+
+## 2026-05-14 - CLI Session 02: Add Bill Workflow Commands
+
+**Goal:**
+
+Expose the completed bill workflow SDK methods through grouped CLI commands without adding new API capabilities.
+
+**Files changed:**
+
+- `src/congress_py/cli.py`
+- `tests/test_cli.py`
+- `README.md`
+- `build/cli/02_add_bill_workflow_commands.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Added `congress bills actions <congress> <bill_type> <number>` and wired it to `CongressClient.get_bill_actions(...)`.
+- Added `congress bills summaries <congress> <bill_type> <number>` and wired it to `CongressClient.get_bill_summaries(...)`.
+- Preserved the existing `congress bills get <congress> <bill_type> <number>` command for bill details.
+- Kept output JSON-only through the existing CLI renderer.
+- Added mocked functional CLI tests for SDK method delegation, positional argument passing, JSON output shape, and secret safety.
+- Updated README CLI examples for the new bill workflow commands.
+- Included the CLI Session 02 plan file under `build/cli/`.
+- Did not add SDK methods, MCP code, pagination flags, live API tests, or bill text version commands.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result: `27 passed in 0.17s`.
+
+**Known issues / follow-ups:**
+
+- Consider adding richer CLI documentation in the planned `docs/` directory.
+- Pagination and recent bill listing remain future SDK/API work before CLI exposure.
+
+**Clarification questions and answers:**
+
+- Asked whether to continue CLI Session 02 on the current `features/bill-workflows` branch. Answer: yes.
+- Asked whether to use grouped command names `congress bills actions ...` and `congress bills summaries ...`. Answer: yes.
+- Asked whether to include `build/cli/02_add_bill_workflow_commands.md` in the eventual commit. Answer: yes.
+- User additionally requested README basic usage examples for the new features. Answer incorporated into the approved scope.
+
+**Fixes made during the session:**
+
+- No test failures occurred; the first validation run passed.
+
+**Next recommended action:**
+
+Review and commit the CLI bill workflow command changes, including the CLI Session 02 plan file.

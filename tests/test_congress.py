@@ -218,7 +218,10 @@ class TestCongressClient(unittest.TestCase):
         actions_data = [
             {
                 "actionDate": "2024-11-01",
-                "sourceSystem": "Library of Congress",
+                "sourceSystem": {
+                    "code": 9,
+                    "name": "Library of Congress"
+                },
                 "text": "Placed on the Union Calendar, Calendar No. 615.",
                 "type": "Floor",
                 "url": (
@@ -248,7 +251,10 @@ class TestCongressClient(unittest.TestCase):
             "Placed on the Union Calendar, Calendar No. 615."
         )
         self.assertEqual(first_action.action_type, "Floor")
-        self.assertEqual(first_action.source_system, "Library of Congress")
+        self.assertEqual(
+            first_action.source_system,
+            {"code": 9, "name": "Library of Congress"}
+        )
         self.assertEqual(
             first_action.url,
             "https://api.congress.gov/v3/bill/118/hr/7437/actions?format=json"

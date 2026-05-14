@@ -86,12 +86,16 @@ congress congress list
 congress bills list
 congress bills list --session 118
 congress bills get 118 hr 7437
+congress bills actions 118 hr 7437
+congress bills summaries 118 hr 7437
 ```
 
 You can pass an API key explicitly for a single command:
 
 ```bash
 congress --api-key your_api_key_here bills get 118 hr 7437
+congress --api-key your_api_key_here bills actions 118 hr 7437
+congress --api-key your_api_key_here bills summaries 118 hr 7437
 ```
 
 ## 🧪 Scripts

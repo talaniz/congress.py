@@ -1,7 +1,7 @@
 """Data models for Congress API responses."""
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import Any, Dict, Optional
 
 
 @dataclass
@@ -39,7 +39,7 @@ class BillAction:
     action_date: Optional[str]
     text: Optional[str]
     action_type: Optional[str] = None
-    source_system: Optional[str] = None
+    source_system: Optional[Dict[str, Any]] = None
     url: Optional[str] = None
 
     @classmethod

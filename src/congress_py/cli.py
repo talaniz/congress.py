@@ -202,6 +202,24 @@ def bills_get(ctx: typer.Context, congress: int, bill_type: str, number: int) ->
     _print_json(client.get_bill(congress, bill_type, number))
 
 
+@bills_app.command("actions")
+def bills_actions(
+    ctx: typer.Context, congress: int, bill_type: str, number: int
+) -> None:
+    """Return actions for one bill."""
+    client = _get_client(ctx)
+    _print_json(client.get_bill_actions(congress, bill_type, number))
+
+
+@bills_app.command("summaries")
+def bills_summaries(
+    ctx: typer.Context, congress: int, bill_type: str, number: int
+) -> None:
+    """Return summaries for one bill."""
+    client = _get_client(ctx)
+    _print_json(client.get_bill_summaries(congress, bill_type, number))
+
+
 app.add_typer(congress_app, name="congress")
 app.add_typer(bills_app, name="bills")
 
