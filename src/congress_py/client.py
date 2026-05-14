@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import requests
 
-from congress_py.models import Bill
+from congress_py.models import Bill, BillAction, BillSummary
 
 
 class CongressClient:
@@ -66,6 +66,18 @@ class CongressClient:
         url = f"{self.bill_url}/{congress}/{bill_type}/{number}"
         data = self._get(url)
         return Bill.from_api_dict(data["bill"])
+
+    def get_bill_actions(self, congress: int, bill_type: str, number: int):
+        """Return actions for a given bill."""
+        url = f"{self.bill_url}/{congress}/{bill_type}/{number}/actions"
+        data = self._get(url)
+        return [BillAction.from_api_dict(action) for action in data["actions"]]
+
+    def get_bill_summaries(self, congress: int, bill_type: str, number: int):
+        """Return summaries for a given bill."""
+        url = f"{self.bill_url}/{congress}/{bill_type}/{number}/summaries"
+        data = self._get(url)
+        return [BillSummary.from_api_dict(summary) for summary in data["summaries"]]
 
     def get_bills(self, session=None):
         """Return a list of bills for a given congressional session."""

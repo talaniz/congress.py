@@ -66,6 +66,14 @@ print(congresses[0])
 # Get bills
 bills = client.get_bills()
 print(bills[0])
+
+# Get a bill workflow
+bill = client.get_bill(118, "hr", 7437)
+actions = client.get_bill_actions(118, "hr", 7437)
+summaries = client.get_bill_summaries(118, "hr", 7437)
+print(bill)
+print(actions[0])
+print(summaries[0])
 ```
 
 ## 🖥️ CLI
@@ -78,12 +86,16 @@ congress congress list
 congress bills list
 congress bills list --session 118
 congress bills get 118 hr 7437
+congress bills actions 118 hr 7437
+congress bills summaries 118 hr 7437
 ```
 
 You can pass an API key explicitly for a single command:
 
 ```bash
 congress --api-key your_api_key_here bills get 118 hr 7437
+congress --api-key your_api_key_here bills actions 118 hr 7437
+congress --api-key your_api_key_here bills summaries 118 hr 7437
 ```
 
 ## 🧪 Scripts
