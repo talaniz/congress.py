@@ -32,3 +32,43 @@ class Bill:
             update_including_text=bill_data["updateDateIncludingText"],
             url=bill_data.get("url"),
         )
+
+
+@dataclass
+class BillAction:
+    action_date: Optional[str]
+    text: Optional[str]
+    action_type: Optional[str] = None
+    source_system: Optional[str] = None
+    url: Optional[str] = None
+
+    @classmethod
+    def from_api_dict(cls, action_data):
+        """Create a BillAction from an API response dictionary."""
+        return cls(
+            action_date=action_data.get("actionDate"),
+            text=action_data.get("text"),
+            action_type=action_data.get("type"),
+            source_system=action_data.get("sourceSystem"),
+            url=action_data.get("url"),
+        )
+
+
+@dataclass
+class BillSummary:
+    action_date: Optional[str]
+    text: Optional[str]
+    update_date: Optional[str] = None
+    version_code: Optional[str] = None
+    action_desc: Optional[str] = None
+
+    @classmethod
+    def from_api_dict(cls, summary_data):
+        """Create a BillSummary from an API response dictionary."""
+        return cls(
+            action_date=summary_data.get("actionDate"),
+            text=summary_data.get("text"),
+            update_date=summary_data.get("updateDate"),
+            version_code=summary_data.get("versionCode"),
+            action_desc=summary_data.get("actionDesc"),
+        )

@@ -66,6 +66,14 @@ print(congresses[0])
 # Get bills
 bills = client.get_bills()
 print(bills[0])
+
+# Get a bill workflow
+bill = client.get_bill(118, "hr", 7437)
+actions = client.get_bill_actions(118, "hr", 7437)
+summaries = client.get_bill_summaries(118, "hr", 7437)
+print(bill)
+print(actions[0])
+print(summaries[0])
 ```
 
 ## 🖥️ CLI

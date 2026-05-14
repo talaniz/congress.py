@@ -5,7 +5,7 @@ from collections import namedtuple
 
 import requests_mock
 
-from congress_py import Bill, CongressClient
+from congress_py import Bill, BillAction, BillSummary, CongressClient
 
 
 class TestCongressClientValidation(unittest.TestCase):
@@ -207,6 +207,126 @@ class TestCongressClient(unittest.TestCase):
         self.assertIsInstance(response, Bill)
         self.assertEqual(response.number, "7437")
         self.assertIsNone(response.url)
+
+    @requests_mock.Mocker()
+    def test_get_bill_actions_returns_action_models(self, m):
+        """Validate get_bill_actions fetches and parses bill actions."""
+        actions_url = (
+            "https://api.congress.gov/v3/bill/118/hr/7437/actions"
+            f"?api_key={self.api_key}"
+        )
+        actions_data = [
+            {
+                "actionDate": "2024-11-01",
+                "sourceSystem": "Library of Congress",
+                "text": "Placed on the Union Calendar, Calendar No. 615.",
+                "type": "Floor",
+                "url": (
+                    "https://api.congress.gov/v3/bill/118/hr/7437/actions"
+                    "?format=json"
+                )
+            },
+            {
+                "actionDate": "2024-09-25",
+                "sourceSystem": "Library of Congress",
+                "text": "Ordered to be Reported by the Yeas and Nays.",
+                "type": "Committee"
+            }
+        ]
+
+        m.get(actions_url, json={"actions": actions_data})
+
+        response = self.congress.get_bill_actions(118, "hr", 7437)
+        first_action = response[0]
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(len(response), 2)
+        self.assertIsInstance(first_action, BillAction)
+        self.assertEqual(first_action.action_date, "2024-11-01")
+        self.assertEqual(
+            first_action.text,
+            "Placed on the Union Calendar, Calendar No. 615."
+        )
+        self.assertEqual(first_action.action_type, "Floor")
+        self.assertEqual(first_action.source_system, "Library of Congress")
+        self.assertEqual(
+            first_action.url,
+            "https://api.congress.gov/v3/bill/118/hr/7437/actions?format=json"
+        )
+
+    @requests_mock.Mocker()
+    def test_get_bill_actions_accepts_missing_optional_fields(self, m):
+        """Validate get_bill_actions accepts minimal action response items."""
+        actions_url = (
+            "https://api.congress.gov/v3/bill/118/hr/7437/actions"
+            f"?api_key={self.api_key}"
+        )
+
+        m.get(actions_url, json={"actions": [{"text": "Introduced in House."}]})
+
+        response = self.congress.get_bill_actions(118, "hr", 7437)
+        action = response[0]
+
+        self.assertIsInstance(action, BillAction)
+        self.assertIsNone(action.action_date)
+        self.assertEqual(action.text, "Introduced in House.")
+        self.assertIsNone(action.action_type)
+        self.assertIsNone(action.source_system)
+        self.assertIsNone(action.url)
+
+    @requests_mock.Mocker()
+    def test_get_bill_summaries_returns_summary_models(self, m):
+        """Validate get_bill_summaries fetches and parses bill summaries."""
+        summaries_url = (
+            "https://api.congress.gov/v3/bill/118/hr/7437/summaries"
+            f"?api_key={self.api_key}"
+        )
+        summaries_data = [
+            {
+                "actionDate": "2024-03-05",
+                "actionDesc": "Introduced in House",
+                "text": "This bill requires reports on supervisory technology.",
+                "updateDate": "2024-03-06T18:44:00Z",
+                "versionCode": "00"
+            }
+        ]
+
+        m.get(summaries_url, json={"summaries": summaries_data})
+
+        response = self.congress.get_bill_summaries(118, "hr", 7437)
+        summary = response[0]
+
+        self.assertIsInstance(response, list)
+        self.assertEqual(len(response), 1)
+        self.assertIsInstance(summary, BillSummary)
+        self.assertEqual(summary.action_date, "2024-03-05")
+        self.assertEqual(summary.action_desc, "Introduced in House")
+        self.assertEqual(
+            summary.text,
+            "This bill requires reports on supervisory technology."
+        )
+        self.assertEqual(summary.update_date, "2024-03-06T18:44:00Z")
+        self.assertEqual(summary.version_code, "00")
+
+    @requests_mock.Mocker()
+    def test_get_bill_summaries_accepts_missing_optional_fields(self, m):
+        """Validate get_bill_summaries accepts minimal summary response items."""
+        summaries_url = (
+            "https://api.congress.gov/v3/bill/118/hr/7437/summaries"
+            f"?api_key={self.api_key}"
+        )
+
+        m.get(summaries_url, json={"summaries": [{"text": "Summary text."}]})
+
+        response = self.congress.get_bill_summaries(118, "hr", 7437)
+        summary = response[0]
+
+        self.assertIsInstance(summary, BillSummary)
+        self.assertIsNone(summary.action_date)
+        self.assertEqual(summary.text, "Summary text.")
+        self.assertIsNone(summary.action_desc)
+        self.assertIsNone(summary.update_date)
+        self.assertIsNone(summary.version_code)
 
 if __name__ == '__main__':
     unittest.main()

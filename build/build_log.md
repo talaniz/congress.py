@@ -241,3 +241,57 @@ Result: `18 passed in 0.08s`.
 **Next recommended action:**
 
 Review, then commit and push the accumulated fixes and test coverage when ready.
+
+## 2026-05-14 - Session 02: Add Bill Workflows
+
+**Goal:**
+
+Add SDK bill workflow methods for bill actions and summaries without adding CLI, MCP, pagination, or unrelated client refactors.
+
+**Files changed:**
+
+- `src/congress_py/client.py`
+- `src/congress_py/models.py`
+- `src/congress_py/__init__.py`
+- `tests/test_congress.py`
+- `README.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Added `CongressClient.get_bill_actions(congress, bill_type, number)` for `/bill/{congress}/{billType}/{billNumber}/actions`.
+- Added `CongressClient.get_bill_summaries(congress, bill_type, number)` for `/bill/{congress}/{billType}/{billNumber}/summaries`.
+- Added focused `BillAction` and `BillSummary` dataclasses with optional parsing for fields that may be absent.
+- Exported the new models from the package interface.
+- Added mocked client tests for endpoint construction, typed parsing, and missing optional fields.
+- Added a minimal README SDK example for the bill workflow methods.
+- Deferred `get_bill_text_versions` because the response shape is not confirmed and the workflow is likely out of scope for users focused on current bill information.
+- Did not add CLI commands, MCP code, pagination, live API tests, or unrelated refactors.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result: `22 passed in 0.11s`.
+
+**Known issues / follow-ups:**
+
+- Add CLI command coverage for bill actions and summaries in a later CLI session if these SDK methods should be exposed through the `congress` command.
+- Consider documenting richer bill workflows in the planned `docs/` directory.
+
+**Clarification questions and answers:**
+
+- Asked whether to update README now or defer documentation. Answer: update the SDK README minimally for now; more detailed docs will move to a future `docs/` directory.
+- Asked whether to add `BillAction` and `BillSummary` dataclasses. Answer: approved.
+- Asked whether to defer `get_bill_text_versions`. Answer: yes; it appears vestigial and users typically care about the latest bill version.
+- Asked whether there were any other clarifying questions. Answer: no further questions; proceed after explicit approval.
+
+**Fixes made during the session:**
+
+- No test failures occurred; the first validation run passed.
+
+**Next recommended action:**
+
+Review the SDK bill workflow changes, then add matching CLI coverage in a later CLI session if desired.
