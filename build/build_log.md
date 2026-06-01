@@ -242,6 +242,11 @@ Result: `18 passed in 0.08s`.
 
 Review, then commit and push the accumulated fixes and test coverage when ready.
 
+## 2026-06-01 - API 03: Add Bill Listing Pagination
+
+**Goal:**
+
+Add pagination support for bill listing while keeping `get_bills()` backward-compatible.
 ## 2026-05-14 - Session 02: Add Bill Workflows
 
 **Goal:**
@@ -251,6 +256,7 @@ Add SDK bill workflow methods for bill actions and summaries without adding CLI,
 **Files changed:**
 
 - `src/congress_py/client.py`
+- `tests/test_congress.py`
 - `src/congress_py/models.py`
 - `src/congress_py/__init__.py`
 - `tests/test_congress.py`
@@ -259,6 +265,11 @@ Add SDK bill workflow methods for bill actions and summaries without adding CLI,
 
 **Changes made:**
 
+- Updated `CongressClient.get_bills()` to accept `limit=20` and `offset=0`.
+- Included `limit` and `offset` in bill-listing query params while preserving optional `session`.
+- Kept `get_bills()` returning `list[Bill]` without exposing raw pagination metadata.
+- Added `CongressClient.iter_bills()` to yield bills across pages until an empty page or `max_pages`.
+- Added mocked tests for default pagination params, custom pagination params, preserved session params, multi-page iteration, and `max_pages`.
 - Added `CongressClient.get_bill_actions(congress, bill_type, number)` for `/bill/{congress}/{billType}/{billNumber}/actions`.
 - Added `CongressClient.get_bill_summaries(congress, bill_type, number)` for `/bill/{congress}/{billType}/{billNumber}/summaries`.
 - Added focused `BillAction` and `BillSummary` dataclasses with optional parsing for fields that may be absent.
@@ -274,6 +285,26 @@ Add SDK bill workflow methods for bill actions and summaries without adding CLI,
 .venv/bin/python -m pytest
 ```
 
+Result: `23 passed in 0.07s`.
+
+**Known issues / follow-ups:**
+
+- `list_recent_bills(...)` from the broader API Session 03 plan has not been added yet.
+- CLI options for `limit` and `offset` were not added in this SDK-focused change.
+
+**Next recommended action:**
+
+Add `list_recent_bills(...)` with conservative defaults, then add matching CLI coverage if it should be exposed through the CLI.
+
+## 2026-06-01 - Document Bill Listing Pagination
+
+**Goal:**
+
+Update README documentation to match the new bill-listing pagination behavior.
+
+**Files changed:**
+
+- `README.md`
 Result: `22 passed in 0.11s`.
 
 **Known issues / follow-ups:**
@@ -313,6 +344,22 @@ Expose the completed bill workflow SDK methods through grouped CLI commands with
 
 **Changes made:**
 
+- Added README feature bullets for explicit bill pagination and page iteration.
+- Added SDK usage examples for `get_bills(limit=..., offset=...)`, session-filtered pagination, and `iter_bills(...)`.
+- Documented that `get_bills()` still returns only `list[Bill]` and that `iter_bills()` stops on empty pages or `max_pages`.
+- Updated the roadmap to remove pagination from future work.
+
+**Tests run:**
+
+- Not run; documentation-only change.
+
+**Known issues / follow-ups:**
+
+- CLI options for pagination remain intentionally undocumented because they have not been implemented.
+
+**Next recommended action:**
+
+Review the pagination branch diff, then commit and push `features/pagination` when ready.
 - Added `congress bills actions <congress> <bill_type> <number>` and wired it to `CongressClient.get_bill_actions(...)`.
 - Added `congress bills summaries <congress> <bill_type> <number>` and wired it to `CongressClient.get_bill_summaries(...)`.
 - Preserved the existing `congress bills get <congress> <bill_type> <number>` command for bill details.

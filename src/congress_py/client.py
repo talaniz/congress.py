@@ -79,11 +79,25 @@ class CongressClient:
         data = self._get(url)
         return [BillSummary.from_api_dict(summary) for summary in data["summaries"]]
 
-    def get_bills(self, session=None):
+    def get_bills(self, session=None, limit: int = 20, offset: int = 0):
         """Return a list of bills for a given congressional session."""
-        params = {}
+        params = {"limit": limit, "offset": offset}
         if session is not None:
             params["session"] = session
 
         data = self._get(self.bill_url, params=params)
         return [Bill.from_api_dict(bill) for bill in data["bills"]]
+
+    def iter_bills(self, session=None, limit: int = 20, max_pages=None):
+        """Yield bills across pages until no bills are returned."""
+        offset = 0
+        pages_fetched = 0
+
+        while max_pages is None or pages_fetched < max_pages:
+            bills = self.get_bills(session=session, limit=limit, offset=offset)
+            if not bills:
+                break
+
+            yield from bills
+            pages_fetched += 1
+            offset += limit
