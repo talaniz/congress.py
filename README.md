@@ -12,6 +12,8 @@ This project provides a simple interface for retrieving and working with legisla
 
 - Fetch congressional sessions
 - Retrieve bills data
+- List bills with explicit pagination controls
+- Iterate through bill pages with safe stopping controls
 - Clean API client abstraction
 - Testable architecture with mocked HTTP responses
 - Designed to evolve into a richer legislative intelligence layer
@@ -66,7 +68,23 @@ print(congresses[0])
 # Get bills
 bills = client.get_bills()
 print(bills[0])
+
+# Get a specific page of bills
+bills = client.get_bills(limit=50, offset=100)
+
+# Keep existing session filtering while paginating
+bills = client.get_bills(session=118, limit=20, offset=0)
+
+# Iterate across pages until the API returns no bills
+for bill in client.iter_bills(session=118, limit=20, max_pages=3):
+    print(bill.number, bill.title)
 ```
+
+`get_bills()` returns only `list[Bill]` objects. Pagination metadata from the
+raw API response is intentionally not returned from this method.
+
+`iter_bills()` fetches pages with increasing offsets and yields `Bill` objects.
+It stops when a page has no bills, or when `max_pages` is reached.
 
 ## 🖥️ CLI
 
@@ -104,7 +122,7 @@ SDK test script (TODO)
 
 ## 🧭 Roadmap
 	•	Normalize API responses into domain models (Bill, etc.)
-	•	Add query parameters (pagination, filtering)
+	•	Add filtering query parameters where useful
 	•	Add vote and member endpoints
 	•	Implement status classification for bills
 	•	Add summarization layer (LLM / local models)

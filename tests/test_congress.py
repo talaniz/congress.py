@@ -2,6 +2,7 @@ import json
 import unittest
 
 from collections import namedtuple
+from urllib.parse import parse_qs, urlparse
 
 import requests_mock
 
@@ -28,6 +29,30 @@ class TestCongressClient(unittest.TestCase):
         with open(filename, 'r') as f:
             d = f.read()
             return d
+
+    def bill_data(self, number="7437"):
+        """Return minimal bill data for mocked bill-listing responses."""
+        return {
+            "congress": 118,
+            "latestAction": {
+                "actionDate": "2024-11-01",
+                "text": "Placed on the Union Calendar, Calendar No. 615."
+            },
+            "number": number,
+            "originChamber": "House",
+            "title": (
+                "Fostering the Use of Technology to Uphold Regulatory "
+                "Effectiveness in Supervision Act"
+            ),
+            "type": "HR",
+            "updateDate": "2024-11-02",
+            "updateDateIncludingText": "2024-11-02",
+            "url": f"https://api.congress.gov/v3/bill/118/hr/{number}?format=json"
+        }
+
+    def request_query(self, request):
+        """Return parsed query parameters from a mocked request."""
+        return parse_qs(urlparse(request.url).query)
 
     def test_convert_name_to_session(self):
         """Validate that the congressional name is translated to the session number."""
@@ -139,7 +164,7 @@ class TestCongressClient(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_bills_returns_list(self, m):
         """Validate get_bills returns a list of bills."""
-        bills_url = f"https://api.congress.gov/v3/bill?api_key={self.api_key}"
+        bills_url = "https://api.congress.gov/v3/bill"
         d = self.return_mock_file_data('tests/bill_responses.txt')
 
         m.get(bills_url, text=d)
@@ -164,6 +189,81 @@ class TestCongressClient(unittest.TestCase):
         self.assertEqual(first_bill.update_date, "2024-11-02")
         self.assertEqual(first_bill.update_including_text, "2024-11-02")
         self.assertEqual(first_bill.url, "https://api.congress.gov/v3/bill/118/hr/7437?format=json")
+
+    @requests_mock.Mocker()
+    def test_get_bills_sends_default_pagination_params(self, m):
+        """Validate get_bills sends default limit and offset params."""
+        bills_url = "https://api.congress.gov/v3/bill"
+        m.get(bills_url, json={"bills": [self.bill_data()]})
+
+        self.congress.get_bills()
+
+        query = self.request_query(m.request_history[0])
+        self.assertEqual(query["api_key"], [self.api_key])
+        self.assertEqual(query["limit"], ["20"])
+        self.assertEqual(query["offset"], ["0"])
+
+    @requests_mock.Mocker()
+    def test_get_bills_sends_custom_pagination_params(self, m):
+        """Validate get_bills sends caller-provided limit and offset params."""
+        bills_url = "https://api.congress.gov/v3/bill"
+        m.get(bills_url, json={"bills": [self.bill_data()]})
+
+        self.congress.get_bills(limit=50, offset=100)
+
+        query = self.request_query(m.request_history[0])
+        self.assertEqual(query["limit"], ["50"])
+        self.assertEqual(query["offset"], ["100"])
+
+    @requests_mock.Mocker()
+    def test_get_bills_preserves_session_param(self, m):
+        """Validate get_bills still sends the optional session param."""
+        bills_url = "https://api.congress.gov/v3/bill"
+        m.get(bills_url, json={"bills": [self.bill_data()]})
+
+        self.congress.get_bills(session=118)
+
+        query = self.request_query(m.request_history[0])
+        self.assertEqual(query["session"], ["118"])
+        self.assertEqual(query["limit"], ["20"])
+        self.assertEqual(query["offset"], ["0"])
+
+    @requests_mock.Mocker()
+    def test_iter_bills_yields_bills_across_pages(self, m):
+        """Validate iter_bills keeps fetching until a page has no bills."""
+        bills_url = "https://api.congress.gov/v3/bill"
+        m.get(
+            bills_url,
+            [
+                {"json": {"bills": [self.bill_data("1")]}},
+                {"json": {"bills": [self.bill_data("2")]}},
+                {"json": {"bills": []}},
+            ],
+        )
+
+        bills = list(self.congress.iter_bills(limit=1))
+
+        self.assertEqual([bill.number for bill in bills], ["1", "2"])
+        self.assertEqual(self.request_query(m.request_history[0])["offset"], ["0"])
+        self.assertEqual(self.request_query(m.request_history[1])["offset"], ["1"])
+        self.assertEqual(self.request_query(m.request_history[2])["offset"], ["2"])
+
+    @requests_mock.Mocker()
+    def test_iter_bills_stops_at_max_pages(self, m):
+        """Validate iter_bills stops when max_pages is reached."""
+        bills_url = "https://api.congress.gov/v3/bill"
+        m.get(
+            bills_url,
+            [
+                {"json": {"bills": [self.bill_data("1")]}},
+                {"json": {"bills": [self.bill_data("2")]}},
+            ],
+        )
+
+        bills = list(self.congress.iter_bills(limit=1, max_pages=1))
+
+        self.assertEqual([bill.number for bill in bills], ["1"])
+        self.assertEqual(len(m.request_history), 1)
 
     @requests_mock.Mocker()
     def test_get_bill_returns_single_bill(self, m):
