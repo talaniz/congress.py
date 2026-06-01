@@ -78,6 +78,13 @@ bills = client.get_bills(session=118, limit=20, offset=0)
 # Iterate across pages until the API returns no bills
 for bill in client.iter_bills(session=118, limit=20, max_pages=3):
     print(bill.number, bill.title)
+# Get a bill workflow
+bill = client.get_bill(118, "hr", 7437)
+actions = client.get_bill_actions(118, "hr", 7437)
+summaries = client.get_bill_summaries(118, "hr", 7437)
+print(bill)
+print(actions[0])
+print(summaries[0])
 ```
 
 `get_bills()` returns only `list[Bill]` objects. Pagination metadata from the
@@ -96,12 +103,16 @@ congress congress list
 congress bills list
 congress bills list --session 118
 congress bills get 118 hr 7437
+congress bills actions 118 hr 7437
+congress bills summaries 118 hr 7437
 ```
 
 You can pass an API key explicitly for a single command:
 
 ```bash
 congress --api-key your_api_key_here bills get 118 hr 7437
+congress --api-key your_api_key_here bills actions 118 hr 7437
+congress --api-key your_api_key_here bills summaries 118 hr 7437
 ```
 
 ## 🧪 Scripts
