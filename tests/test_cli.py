@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import stat
 from collections import namedtuple
 from unittest.mock import patch
@@ -11,6 +12,11 @@ from congress_py.models import Bill, BillAction, BillSummary
 
 
 runner = CliRunner()
+ANSI_ESCAPE_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+
+
+def _strip_ansi(value):
+    return ANSI_ESCAPE_RE.sub("", value)
 
 
 def _bill(number="7437"):
@@ -492,16 +498,17 @@ def test_bills_list_missing_api_key_fails_with_friendly_message(
 
 def test_bills_list_help_includes_pagination_options():
     result = runner.invoke(cli.app, ["bills", "list", "--help"])
+    output = _strip_ansi(result.output)
 
     assert result.exit_code == 0
-    assert "--limit" in result.output
-    assert "Number of bills to request per API" in result.output
-    assert "call." in result.output
-    assert "--offset" in result.output
-    assert "Starting offset for single-page mode." in result.output
-    assert "Ignored when --pages is provided." in result.output
-    assert "--pages" in result.output
-    assert "Number of pages to fetch using the" in result.output
+    assert "--limit" in output
+    assert "Number of bills to request per API" in output
+    assert "call." in output
+    assert "--offset" in output
+    assert "Starting offset for single-page mode." in output
+    assert "Ignored when --pages is provided." in output
+    assert "--pages" in output
+    assert "Number of pages to fetch using the" in output
 
 
 def test_env_api_key_is_used_when_explicit_key_is_absent(monkeypatch, tmp_path):
