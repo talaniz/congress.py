@@ -65,9 +65,13 @@ def _fake_client_factory(instances):
             self.calls.append(("get_congresses",))
             return [{"name": "118th Congress"}]
 
-        def get_bills(self, session=None):
-            self.calls.append(("get_bills", session))
+        def get_bills(self, session=None, limit=20, offset=0):
+            self.calls.append(("get_bills", session, limit, offset))
             return [_bill()]
+
+        def iter_bills(self, session=None, limit=20, max_pages=None):
+            self.calls.append(("iter_bills", session, limit, max_pages))
+            return iter([_bill(number="7437"), _bill(number="7438")])
 
         def get_bill(self, congress, bill_type, number):
             self.calls.append(("get_bill", congress, bill_type, number))
@@ -262,7 +266,91 @@ def test_congress_current_outputs_valid_json_with_expected_fields(
     assert "secret" not in result.output
 
 
-def test_bills_list_passes_session_option(monkeypatch, tmp_path):
+def test_bills_list_default_calls_get_bills_with_defaults(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            ["--api-key", "secret", "bills", "list"],
+        )
+
+    assert result.exit_code == 0
+    assert instances[0].calls == [("get_bills", None, 20, 0)]
+    output = json.loads(result.output)
+    assert output[0]["number"] == "7437"
+    assert "secret" not in result.output
+
+
+def test_bills_list_limit_calls_get_bills_with_custom_limit(
+    monkeypatch, tmp_path
+):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            ["--api-key", "secret", "bills", "list", "--limit", "50"],
+        )
+
+    assert result.exit_code == 0
+    assert instances[0].calls == [("get_bills", None, 50, 0)]
+    assert json.loads(result.output)[0]["number"] == "7437"
+    assert "secret" not in result.output
+
+
+def test_bills_list_offset_calls_get_bills_with_custom_offset(
+    monkeypatch, tmp_path
+):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            ["--api-key", "secret", "bills", "list", "--offset", "100"],
+        )
+
+    assert result.exit_code == 0
+    assert instances[0].calls == [("get_bills", None, 20, 100)]
+    assert json.loads(result.output)[0]["number"] == "7437"
+    assert "secret" not in result.output
+
+
+def test_bills_list_limit_and_offset_forward_both_to_get_bills(
+    monkeypatch, tmp_path
+):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            [
+                "--api-key",
+                "secret",
+                "bills",
+                "list",
+                "--limit",
+                "25",
+                "--offset",
+                "100",
+            ],
+        )
+
+    assert result.exit_code == 0
+    assert instances[0].calls == [("get_bills", None, 25, 100)]
+    assert json.loads(result.output)[0]["number"] == "7437"
+    assert "secret" not in result.output
+
+
+def test_bills_list_session_is_forwarded_to_get_bills(monkeypatch, tmp_path):
     monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
     monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
     instances = []
@@ -274,7 +362,146 @@ def test_bills_list_passes_session_option(monkeypatch, tmp_path):
         )
 
     assert result.exit_code == 0
-    assert instances[0].calls == [("get_bills", 118)]
+    assert instances[0].calls == [("get_bills", 118, 20, 0)]
+
+
+def test_bills_list_pages_uses_iter_bills(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            ["--api-key", "secret", "bills", "list", "--limit", "25", "--pages", "3"],
+        )
+
+    assert result.exit_code == 0
+    assert instances[0].calls == [("iter_bills", None, 25, 3)]
+    output = json.loads(result.output)
+    assert [bill["number"] for bill in output] == ["7437", "7438"]
+    assert "secret" not in result.output
+
+
+def test_bills_list_pages_ignores_offset(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            [
+                "--api-key",
+                "secret",
+                "bills",
+                "list",
+                "--offset",
+                "100",
+                "--pages",
+                "2",
+            ],
+        )
+
+    assert result.exit_code == 0
+    assert instances[0].calls == [("iter_bills", None, 20, 2)]
+    assert "secret" not in result.output
+
+
+def test_bills_list_session_is_forwarded_to_iter_bills(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    instances = []
+
+    with patch("congress_py.cli.CongressClient", _fake_client_factory(instances)):
+        result = runner.invoke(
+            cli.app,
+            [
+                "--api-key",
+                "secret",
+                "bills",
+                "list",
+                "--session",
+                "118",
+                "--pages",
+                "2",
+            ],
+        )
+
+    assert result.exit_code == 0
+    assert instances[0].calls == [("iter_bills", 118, 20, 2)]
+
+
+def test_bills_list_rejects_negative_limit(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+
+    result = runner.invoke(
+        cli.app,
+        ["--api-key", "secret", "bills", "list", "--limit", "-1"],
+    )
+
+    assert result.exit_code != 0
+    assert "secret" not in result.output
+
+
+def test_bills_list_rejects_negative_offset(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+
+    result = runner.invoke(
+        cli.app,
+        ["--api-key", "secret", "bills", "list", "--offset", "-1"],
+    )
+
+    assert result.exit_code != 0
+    assert "secret" not in result.output
+
+
+def test_bills_list_rejects_zero_pages(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+
+    result = runner.invoke(
+        cli.app,
+        ["--api-key", "secret", "bills", "list", "--pages", "0"],
+    )
+
+    assert result.exit_code != 0
+    assert "secret" not in result.output
+
+
+def test_bills_list_missing_api_key_fails_with_friendly_message(
+    monkeypatch, tmp_path
+):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+
+    result = runner.invoke(
+        cli.app,
+        ["bills", "list"],
+        env={"CONGRESS_API_KEY": ""},
+    )
+
+    assert result.exit_code == 1
+    assert (
+        "No Congress.gov API key found. Run congress configure or set CONGRESS_API_KEY."
+        in result.output
+    )
+
+
+def test_bills_list_help_includes_pagination_options():
+    result = runner.invoke(cli.app, ["bills", "list", "--help"])
+
+    assert result.exit_code == 0
+    assert "--limit" in result.output
+    assert "Number of bills to request per API" in result.output
+    assert "call." in result.output
+    assert "--offset" in result.output
+    assert "Starting offset for single-page mode." in result.output
+    assert "Ignored when --pages is provided." in result.output
+    assert "--pages" in result.output
+    assert "Number of pages to fetch using the" in result.output
 
 
 def test_env_api_key_is_used_when_explicit_key_is_absent(monkeypatch, tmp_path):

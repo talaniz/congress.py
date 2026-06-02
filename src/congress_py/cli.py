@@ -189,10 +189,35 @@ def bills_list(
         "--session",
         help="Congress session number to pass to the existing SDK method.",
     ),
+    limit: int = typer.Option(
+        20,
+        "--limit",
+        min=1,
+        help="Number of bills to request per API call.",
+    ),
+    offset: int = typer.Option(
+        0,
+        "--offset",
+        min=0,
+        help=(
+            "Starting offset for single-page mode. "
+            "Ignored when --pages is provided."
+        ),
+    ),
+    pages: Optional[int] = typer.Option(
+        None,
+        "--pages",
+        min=1,
+        help="Number of pages to fetch using the SDK iterator.",
+    ),
 ) -> None:
     """Return bills from the existing SDK list method."""
     client = _get_client(ctx)
-    _print_json(client.get_bills(session=session))
+    if pages is None:
+        bills = client.get_bills(session=session, limit=limit, offset=offset)
+    else:
+        bills = list(client.iter_bills(session=session, limit=limit, max_pages=pages))
+    _print_json(bills)
 
 
 @bills_app.command("get")

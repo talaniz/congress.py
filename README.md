@@ -102,10 +102,19 @@ congress congress current
 congress congress list
 congress bills list
 congress bills list --session 118
+congress bills list --limit 50
+congress bills list --session 118 --limit 25 --offset 100
+congress bills list --session 118 --limit 25 --pages 3
 congress bills get 118 hr 7437
 congress bills actions 118 hr 7437
 congress bills summaries 118 hr 7437
 ```
+
+For `congress bills list`, `--limit` controls the number of bills requested per
+API call. `--offset` controls the starting offset in single-page mode. `--pages`
+switches to multi-page iteration through the SDK iterator; when `--pages` is
+provided, `--offset` is ignored because the current iterator starts from the
+first page.
 
 You can pass an API key explicitly for a single command:
 
