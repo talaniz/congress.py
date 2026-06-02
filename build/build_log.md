@@ -396,3 +396,42 @@ Result: `27 passed in 0.17s`.
 **Next recommended action:**
 
 Review and commit the CLI bill workflow command changes, including the CLI Session 02 plan file.
+
+## 2026-06-02 - CLI 03 - Add Pagination Options
+
+**Goal:**
+
+Expose existing SDK bill-listing pagination behavior through the existing `congress bills list` CLI command.
+
+**Files changed:**
+
+- `src/congress_py/cli.py`
+- `tests/test_cli.py`
+- `README.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Added `--limit`, `--offset`, and optional `--pages` options to `congress bills list`.
+- Kept single-page mode on `CongressClient.get_bills(session=..., limit=..., offset=...)`.
+- Routed `--pages` mode through `CongressClient.iter_bills(session=..., limit=..., max_pages=...)`.
+- Preserved JSON output formatting and existing `--session` behavior in both single-page and multi-page modes.
+- Added Typer validation for `--limit >= 1`, `--offset >= 0`, and provided `--pages >= 1`.
+- Updated README CLI examples and documented that `--offset` is ignored when `--pages` is provided.
+- Added mocked CLI tests for pagination forwarding, JSON output, validation failures, and session forwarding in both modes.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result: `44 passed in 0.17s`.
+
+**Known issues / follow-ups:**
+
+- `CongressClient.iter_bills()` does not currently accept an offset, so CLI `--pages` mode intentionally ignores `--offset`.
+
+**Next recommended action:**
+
+Review and commit the CLI pagination option changes.
