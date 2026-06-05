@@ -6,6 +6,21 @@ from typing import Any, Dict, Optional
 
 @dataclass
 class Bill:
+    """Bill data returned by Congress.gov.
+
+    Attributes:
+        congress: Congress number, such as ``118``.
+        latest_action_date: Date of the latest recorded action.
+        latest_action_text: Description of the latest recorded action.
+        number: Bill number within its bill type.
+        origin_chamber: Chamber where the bill originated.
+        title: Official bill title.
+        bill_type: Congress.gov bill type code, such as ``"hr"`` or ``"s"``.
+        update_date: Date the bill record was last updated.
+        update_including_text: Whether the bill text was included in the latest update.
+        url: Optional Congress.gov API URL for the bill record.
+
+    """
     congress: int
     latest_action_date: str
     latest_action_text: str
@@ -36,6 +51,16 @@ class Bill:
 
 @dataclass
 class BillAction:
+    """Legislative action recorded for a bill.
+
+    Attributes:
+        action_date: Date the action occurred, if provided by the API.
+        text: Description of the action, if provided by the API.
+        action_type: Congress.gov action type value, if provided.
+        source_system: Source system metadata from Congress.gov, if provided.
+        url: Optional Congress.gov API URL for the action record.
+
+    """
     action_date: Optional[str]
     text: Optional[str]
     action_type: Optional[str] = None
@@ -56,6 +81,16 @@ class BillAction:
 
 @dataclass
 class BillSummary:
+    """Summary text available for a bill.
+
+    Attributes:
+        action_date: Date associated with the summary action, if provided.
+        text: Summary text, if provided by the API.
+        update_date: Date the summary record was last updated, if provided.
+        version_code: Congress.gov summary version code, if provided.
+        action_desc: Description of the action associated with the summary, if provided.
+
+    """
     action_date: Optional[str]
     text: Optional[str]
     update_date: Optional[str] = None
