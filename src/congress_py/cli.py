@@ -137,7 +137,14 @@ def main(
         ),
     ),
 ) -> None:
-    """Resolve global CLI options."""
+    """Resolve global CLI options for all commands.
+
+    Args:
+        ctx: Typer context used to share resolved option values with commands.
+        api_key: Optional Congress.gov API key. If omitted, API commands fall
+            back to ``CONGRESS_API_KEY`` and then ``~/.congress/config.toml``.
+
+    """
     ctx.obj = {"api_key": api_key}
 
 
@@ -151,7 +158,12 @@ def configure(
         help="Congress.gov API key to save locally.",
     ),
 ) -> None:
-    """Save a Congress.gov API key for CLI use."""
+    """Save a Congress.gov API key for future CLI commands.
+
+    Args:
+        api_key: Congress.gov API key to write to ``~/.congress/config.toml``.
+
+    """
     CONFIG_DIR.mkdir(mode=0o700, parents=True, exist_ok=True)
     content = f'[auth]\napi_key = "{_toml_string(api_key)}"\n'
 
@@ -211,7 +223,17 @@ def bills_list(
         help="Number of pages to fetch using the SDK iterator.",
     ),
 ) -> None:
-    """Return bills from the existing SDK list method."""
+    """Return bills, optionally filtered by Congress session.
+
+    Args:
+        ctx: Typer context containing global CLI option values.
+        session: Optional Congress number used to filter bill results.
+        limit: Number of bills to request per API call.
+        offset: Starting offset for single-page results.
+        pages: Optional number of pages to fetch with the SDK iterator. When
+            provided, ``offset`` is ignored.
+
+    """
     client = _get_client(ctx)
     if pages is None:
         bills = client.get_bills(session=session, limit=limit, offset=offset)
