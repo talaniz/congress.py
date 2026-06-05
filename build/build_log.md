@@ -435,3 +435,82 @@ Result: `44 passed in 0.17s`.
 **Next recommended action:**
 
 Review and commit the CLI pagination option changes.
+
+## 2026-06-05 - Documentation: Add MkDocs Site
+
+**Goal:**
+
+Integrate MkDocs Material documentation for the current SDK and CLI while keeping
+product code unchanged.
+
+**Files changed:**
+
+- `pyproject.toml`
+- `.gitignore`
+- `mkdocs.yml`
+- `README.md`
+- `docs/index.md`
+- `docs/installation.md`
+- `docs/quickstart.md`
+- `docs/cli.md`
+- `docs/sdk.md`
+- `docs/api-reference.md`
+- `docs/contributing.md`
+- `docs/changelog.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Added a `docs` optional dependency group for MkDocs Material and mkdocstrings.
+- Added `site/` to `.gitignore` so generated MkDocs output is not committed.
+- Added `mkdocs.yml` with `site_url` set to `https://talaniz.github.io/congress.py/`.
+- Added the initial documentation site pages for installation, quickstart, CLI,
+  SDK usage, API reference, contributing, and changelog.
+- Kept CLI documentation hand-written.
+- Configured the API reference to use mkdocstrings for `client.py`, `models.py`,
+  and `exceptions.py`.
+- Shortened the README into a front door that links to the future GitHub Pages
+  documentation site.
+- Built `docs/changelog.md` from the existing build log using Keep a Changelog
+  style, with `Unreleased` and `0.1.0` sections.
+- Did not change SDK or CLI product code.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result: `44 passed in 0.18s`.
+
+```bash
+.venv/bin/python -m pip install -e ".[docs]"
+```
+
+Initial result: failed in the sandbox because network/DNS access was restricted
+while pip tried to resolve build dependencies.
+
+Second result: passed after network approval; docs dependencies installed.
+
+```bash
+.venv/bin/python -m mkdocs build --strict
+```
+
+Initial result: failed because mkdocstrings/griffe emitted missing type
+annotation warnings from existing source docstrings under strict mode.
+
+Fix: configured mkdocstrings `docstring_options.warn_missing_types` as `false`
+so strict docs builds still validate documentation without requiring source-code
+annotation changes in this documentation session.
+
+Final result: passed. Material for MkDocs printed its upstream MkDocs 2.0 notice,
+but the command exited successfully.
+
+**Known issues / follow-ups:**
+
+- GitHub Pages still needs to be configured manually to publish from the
+  `gh-pages` branch.
+
+**Next recommended action:**
+
+Review and commit the documentation changes.

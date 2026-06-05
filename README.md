@@ -1,174 +1,34 @@
-![Tests](https://github.com/talaniz/congress.py/actions/workflows/python-package.yml/badge.svg)
-
 # congress_py
 
-A lightweight Python SDK for interacting with the United States Congress API.
+![Tests](https://github.com/talaniz/congress.py/actions/workflows/python-package.yml/badge.svg)
 
-This project provides a simple interface for retrieving and working with legislative data such as bills and congressional sessions, with a focus on clean abstractions and ease of use.
+`congress_py` is an unofficial Python SDK and CLI for reading data from the
+Congress.gov API.
 
----
+This project is not affiliated with Congress.gov, the Library of Congress,
+Congress, or the U.S. government. It does not provide legal, legislative,
+lobbying, financial, compliance, or policy advice.
 
-## 🚀 Features
-
-- Fetch congressional sessions
-- Retrieve bills data
-- List bills with explicit pagination controls
-- Iterate through bill pages with safe stopping controls
-- Clean API client abstraction
-- Testable architecture with mocked HTTP responses
-- Designed to evolve into a richer legislative intelligence layer
-
----
-
-## 📦 Installation
-
-Clone the repo and install dependencies:
+## Installation
 
 ```bash
-git clone https://github.com/<your-username>/congress.py.git
+git clone https://github.com/talaniz/congress.py.git
 cd congress.py
 python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python -m pip install -e .
 ```
 
-## 🔑 Setup
+You will need your own Congress.gov API key.
 
-You’ll need an API key from the official Congress API.
+## Documentation
 
-Set your environment variable:
+Full documentation is available at:
 
-`export CONGRESS_API_KEY=your_api_key_here`
+https://talaniz.github.io/congress.py/
 
-The CLI also supports saving a local key for developer convenience:
+The documentation site includes installation steps, API-key setup, SDK examples,
+CLI examples, API reference, contributing guidance, and the changelog.
 
-```bash
-congress configure
-```
+## License
 
-CLI credential resolution order:
-
-1. `--api-key`
-2. `CONGRESS_API_KEY`
-3. `~/.congress/config.toml`
-
-## 🧠 Usage
-
-```
-import os
-
-from congress_py import CongressClient
-
-client = CongressClient(os.environ["CONGRESS_API_KEY"])
-
-# Get congressional sessions
-congresses = client.get_congresses()
-print(congresses[0])
-
-# Get bills
-bills = client.get_bills()
-print(bills[0])
-
-# Get a specific page of bills
-bills = client.get_bills(limit=50, offset=100)
-
-# Keep existing session filtering while paginating
-bills = client.get_bills(session=118, limit=20, offset=0)
-
-# Iterate across pages until the API returns no bills
-for bill in client.iter_bills(session=118, limit=20, max_pages=3):
-    print(bill.number, bill.title)
-# Get a bill workflow
-bill = client.get_bill(118, "hr", 7437)
-actions = client.get_bill_actions(118, "hr", 7437)
-summaries = client.get_bill_summaries(118, "hr", 7437)
-print(bill)
-print(actions[0])
-print(summaries[0])
-```
-
-`get_bills()` returns only `list[Bill]` objects. Pagination metadata from the
-raw API response is intentionally not returned from this method.
-
-`iter_bills()` fetches pages with increasing offsets and yields `Bill` objects.
-It stops when a page has no bills, or when `max_pages` is reached.
-
-## 🖥️ CLI
-
-The package installs a `congress` command. Output is JSON by default.
-
-```bash
-congress congress current
-congress congress list
-congress bills list
-congress bills list --session 118
-congress bills list --limit 50
-congress bills list --session 118 --limit 25 --offset 100
-congress bills list --session 118 --limit 25 --pages 3
-congress bills get 118 hr 7437
-congress bills actions 118 hr 7437
-congress bills summaries 118 hr 7437
-```
-
-For `congress bills list`, `--limit` controls the number of bills requested per
-API call. `--offset` controls the starting offset in single-page mode. `--pages`
-switches to multi-page iteration through the SDK iterator; when `--pages` is
-provided, `--offset` is ignored because the current iterator starts from the
-first page.
-
-You can pass an API key explicitly for a single command:
-
-```bash
-congress --api-key your_api_key_here bills get 118 hr 7437
-congress --api-key your_api_key_here bills actions 118 hr 7437
-congress --api-key your_api_key_here bills summaries 118 hr 7437
-```
-
-## 🧪 Scripts
-
-Raw API test (bypasses SDK)
-`python scripts/fetch_congress_raw.py`
-
-Used for:
-
-	•	debugging API responses
-	•	validating raw data format
-
-SDK test script (TODO)
-`python scripts/test_congress_sdk.py`
-
-## 🧪 Testing
-`.venv/bin/python -m pytest`
-
-## 🧭 Roadmap
-	•	Normalize API responses into domain models (Bill, etc.)
-	•	Add filtering query parameters where useful
-	•	Add vote and member endpoints
-	•	Implement status classification for bills
-	•	Add summarization layer (LLM / local models)
-	•	Expose as an MCP server for AI tooling
-
-## 💡 Why this project exists
-
-Most developers treat APIs like raw JSON pipes.
-
-This project explores a different approach:
-
-	•	turning legislative data into structured, queryable objects
-	•	building a foundation for higher-level insights
-	•	bridging raw data → usable intelligence
-
-## 🙌 Contributions
-
-Open to ideas, improvements, and extensions.
-
-If you have thoughts on:
-
-	•	better abstractions
-	•	additional endpoints
-	•	data modeling
-
-feel free to open an issue or PR.
-
-## 📄 License
 MIT

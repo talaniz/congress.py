@@ -1,0 +1,43 @@
+site_name: congress_py
+site_description: Documentation for the unofficial congress_py SDK and CLI.
+site_url: https://talaniz.github.io/congress.py/
+repo_url: https://github.com/talaniz/congress.py
+repo_name: talaniz/congress.py
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Quickstart: quickstart.md
+  - CLI: cli.md
+  - SDK: sdk.md
+  - API Reference: api-reference.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - src
+          options:
+            docstring_style: google
+            docstring_options:
+              warn_missing_types: false
+            show_source: false
+            show_root_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
