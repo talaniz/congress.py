@@ -6,4 +6,5 @@ coverage.xml
 *.egg-info/
 dist/
 htmlcov/
+site/
 */automate.code-workspace
