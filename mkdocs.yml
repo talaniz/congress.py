@@ -17,6 +17,7 @@ nav:
   - Quickstart: quickstart.md
   - CLI: cli.md
   - SDK: sdk.md
+  - MCP Server: mcp.md
   - API Reference: api-reference.md
   - Contributing: contributing.md
   - Changelog: changelog.md

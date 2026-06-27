@@ -15,6 +15,10 @@ style and uses the package version from `pyproject.toml`.
   `exceptions.py`.
 - `CongressClient.list_recent_bills(limit=10)` convenience method for safe
   recent bill discovery.
+- Optional MCP server support with read-only bill tools.
+- `congress mcp-start` for local stdio MCP server testing.
+- Dockerfile for running the MCP server with `CONGRESS_API_KEY` supplied at
+  runtime.
 
 ### Changed
 

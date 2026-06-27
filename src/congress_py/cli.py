@@ -179,6 +179,24 @@ def configure(
     typer.echo("Configuration saved.")
 
 
+@app.command("mcp-start")
+def mcp_start(ctx: typer.Context) -> None:
+    """Start the stdio MCP server."""
+    explicit_api_key = None
+    if ctx.obj:
+        explicit_api_key = ctx.obj.get("api_key")
+
+    try:
+        api_key = _resolve_api_key(explicit_api_key)
+    except MissingAPIKeyError:
+        typer.echo(MISSING_API_KEY_MESSAGE, err=True)
+        raise typer.Exit(1)
+
+    from congress_py.mcp_server import run as run_mcp_server
+
+    run_mcp_server(api_key=api_key)
+
+
 @congress_app.command("current")
 def congress_current(ctx: typer.Context) -> None:
     """Return the current congressional session."""

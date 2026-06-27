@@ -57,3 +57,12 @@ congress bills summaries 118 hr 7437
 ```
 
 CLI output is JSON by default.
+
+## Start the MCP server
+
+Install the MCP extra, then start the local stdio server:
+
+```bash
+.venv/bin/python -m pip install -e ".[mcp]"
+congress mcp-start
+```

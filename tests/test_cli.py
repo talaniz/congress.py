@@ -511,6 +511,93 @@ def test_bills_list_help_includes_pagination_options():
     assert "Number of pages to fetch using the" in output
 
 
+def test_mcp_start_uses_explicit_api_key(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    calls = []
+
+    def fake_run_mcp_server(api_key):
+        calls.append(api_key)
+
+    monkeypatch.setattr("congress_py.mcp_server.run", fake_run_mcp_server)
+
+    result = runner.invoke(
+        cli.app,
+        ["--api-key", "explicit-secret", "mcp-start"],
+        env={"CONGRESS_API_KEY": "env-secret"},
+    )
+
+    assert result.exit_code == 0
+    assert calls == ["explicit-secret"]
+    assert "explicit-secret" not in result.output
+    assert "env-secret" not in result.output
+
+
+def test_mcp_start_uses_environment_api_key(monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+    calls = []
+
+    def fake_run_mcp_server(api_key):
+        calls.append(api_key)
+
+    monkeypatch.setattr("congress_py.mcp_server.run", fake_run_mcp_server)
+
+    result = runner.invoke(
+        cli.app,
+        ["mcp-start"],
+        env={"CONGRESS_API_KEY": "env-secret"},
+    )
+
+    assert result.exit_code == 0
+    assert calls == ["env-secret"]
+    assert "env-secret" not in result.output
+
+
+def test_mcp_start_uses_config_api_key(monkeypatch, tmp_path):
+    config_dir = tmp_path / ".congress"
+    config_file = config_dir / "config.toml"
+    config_dir.mkdir()
+    config_file.write_text('[auth]\napi_key = "config-secret"\n', encoding="utf-8")
+    monkeypatch.setattr(cli, "CONFIG_DIR", config_dir)
+    monkeypatch.setattr(cli, "CONFIG_FILE", config_file)
+    calls = []
+
+    def fake_run_mcp_server(api_key):
+        calls.append(api_key)
+
+    monkeypatch.setattr("congress_py.mcp_server.run", fake_run_mcp_server)
+
+    result = runner.invoke(
+        cli.app,
+        ["mcp-start"],
+        env={"CONGRESS_API_KEY": ""},
+    )
+
+    assert result.exit_code == 0
+    assert calls == ["config-secret"]
+    assert "config-secret" not in result.output
+
+
+def test_mcp_start_missing_api_key_fails_with_friendly_message(
+    monkeypatch, tmp_path
+):
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
+    monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
+
+    result = runner.invoke(
+        cli.app,
+        ["mcp-start"],
+        env={"CONGRESS_API_KEY": ""},
+    )
+
+    assert result.exit_code == 1
+    assert (
+        "No Congress.gov API key found. Run congress configure or set CONGRESS_API_KEY."
+        in result.output
+    )
+
+
 def test_env_api_key_is_used_when_explicit_key_is_absent(monkeypatch, tmp_path):
     monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / ".congress")
     monkeypatch.setattr(cli, "CONFIG_FILE", tmp_path / ".congress" / "config.toml")
