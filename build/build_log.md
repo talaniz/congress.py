@@ -514,3 +514,56 @@ but the command exited successfully.
 **Next recommended action:**
 
 Review and commit the documentation changes.
+
+## 2026-06-27 - API 03: Add list_recent_bills
+
+**Goal:**
+
+Add the remaining safe recent bill discovery SDK helper from the API Session 03
+plan.
+
+**Files changed:**
+
+- `src/congress_py/client.py`
+- `tests/test_congress.py`
+- `docs/sdk.md`
+- `docs/changelog.md`
+- `build/context/list_recent_bills_context.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Added `CongressClient.list_recent_bills(limit=10)`.
+- Implemented the method as a thin wrapper over `get_bills(limit=limit, offset=0)`.
+- Added explicit validation for `1 <= limit <= 250`, raising `ValueError` for
+  invalid limits before making an HTTP request.
+- Added mocked SDK tests for default request params, custom limits, return
+  parsing, and invalid-limit behavior.
+- Documented the SDK method in the docs site and changelog.
+- Created `build/context/list_recent_bills_context.md` with implementation
+  context and locked decisions for this session.
+- Did not add CLI coverage; CLI exposure remains deferred.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Initial result: failed during collection because `congress_py` was not
+installed in the local virtual environment.
+
+Fix: ran `.venv/bin/python -m pip install -e .`. The first install attempt
+failed because sandboxed network access could not resolve build dependencies;
+the second attempt passed after network approval.
+
+Final result: `47 passed in 0.19s`.
+
+**Known issues / follow-ups:**
+
+- Add CLI exposure later only if desired, likely as a focused CLI session.
+- The upcoming MCP server session can now depend on `list_recent_bills`.
+
+**Next recommended action:**
+
+Review and commit the SDK recent-bills change.

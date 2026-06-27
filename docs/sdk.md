@@ -31,11 +31,14 @@ congresses = client.get_congresses()
 
 ```python
 bills = client.get_bills(session=118, limit=20, offset=0)
+recent_bills = client.list_recent_bills(limit=10)
 bill = client.get_bill(118, "hr", 7437)
 ```
 
 `get_bills()` returns a single page of `Bill` models. It intentionally returns
 only `list[Bill]`; raw pagination metadata is not exposed by this method.
+`list_recent_bills()` is a conservative convenience wrapper for the first bill
+listing page and accepts limits from `1` through `250`.
 
 ## Iterating bill pages
 

@@ -13,6 +13,8 @@ style and uses the package version from `pyproject.toml`.
   reference, contributing, and changelog.
 - mkdocstrings-generated API reference for `client.py`, `models.py`, and
   `exceptions.py`.
+- `CongressClient.list_recent_bills(limit=10)` convenience method for safe
+  recent bill discovery.
 
 ### Changed
 
