@@ -6,10 +6,10 @@ duplicate Congress.gov HTTP logic.
 
 ## Install MCP Support
 
-From a published package:
+From PyPI:
 
 ```bash
-pip install "congress-py[mcp]"
+python -m pip install "congress-py[mcp]"
 ```
 
 For local development:
