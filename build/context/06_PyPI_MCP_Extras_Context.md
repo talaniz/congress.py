@@ -6,6 +6,8 @@
 - Build lane: MCP Session 06
 - Plan file: `build/mcp/06_pypi_mcp_extras.md`
 - Goal: verify MCP optional extras and prepare the `0.2.0` release path.
+- Final status: completed. Version `0.2.0` is published to TestPyPI and
+  production PyPI with MCP extras available through `congress-py[mcp]`.
 
 ## Current Repository State
 
@@ -203,3 +205,40 @@ Result: not uploaded. Twine connected to TestPyPI, reported that trusted
 publishing is not supported from this local environment, then attempted to
 prompt for an API token. The non-interactive prompt failed with `EOFError`.
 No token was provided in chat and no production PyPI upload was attempted.
+
+## Post-Merge Publishing Completion
+
+GitHub trusted-publishing workflows were added in a follow-up branch:
+
+- `.github/workflows/publish-testpypi.yaml`
+- `.github/workflows/publish-pypi.yaml`
+
+The TestPyPI workflow is manually triggered with `workflow_dispatch` and uses
+the GitHub environment named `testpypi`. The production PyPI workflow runs on
+tags matching `v*.*.*` and uses the GitHub environment named `pypi`.
+
+The user created the required GitHub environments and configured trusted
+publishing. No PyPI or TestPyPI tokens were committed or shared in chat.
+
+Publishing validation completed:
+
+- TestPyPI published `congress-py==0.2.0`.
+- A clean TestPyPI install of `congress-py[mcp]==0.2.0` imported both
+  `congress_py` and `mcp` and reported `congress_py.__version__ == "0.2.0"`.
+- The installed console script exists at the virtual environment path
+  `.../bin/congress`.
+- `congress mcp-start` produced no normal startup output when credentials were
+  available, which is expected for a stdio MCP server waiting for client input.
+- The release tag `v0.2.0` was pushed to GitHub.
+- Production PyPI published `congress-py==0.2.0`.
+- The user confirmed that installing `congress-py[mcp]==0.2.0` from production
+  PyPI works.
+
+Final handoff:
+
+- Session 06 is complete.
+- The package release is live on PyPI.
+- The next development session should start from a fresh branch to avoid drift.
+- Recommended next feature work from the MCP plan is Session 05, the optional
+  LLM summarization layer. Session 07, GHCR container publishing, remains a
+  separate later packaging/release-infrastructure step.

@@ -832,3 +832,73 @@ token was provided in chat.
 Commit and push the `feature/release-0.2.0` branch, review/merge it to `main`,
 then decide whether to complete TestPyPI/production PyPI release and create
 `v0.2.0`.
+
+## 2026-06-27 - MCP 06 Follow-up: Publish 0.2.0
+
+**Goal:**
+
+Complete the `0.2.0` publishing path after the release-prep branch merged.
+
+**Files changed:**
+
+- `.github/workflows/publish-testpypi.yaml`
+- `.github/workflows/publish-pypi.yaml`
+- `build/context/06_PyPI_MCP_Extras_Context.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Added GitHub trusted-publishing workflows for TestPyPI and production PyPI.
+- Configured the TestPyPI workflow as a manual `workflow_dispatch` release
+  check using the `testpypi` GitHub environment.
+- Configured the production PyPI workflow to publish on tags matching
+  `v*.*.*` using the `pypi` GitHub environment.
+- Confirmed no PyPI or TestPyPI API tokens were committed or shared in chat.
+- The user created the required GitHub environments and configured trusted
+  publishing.
+- TestPyPI published `congress-py==0.2.0`.
+- Production PyPI published `congress-py==0.2.0` after tag `v0.2.0` was pushed.
+- Updated the Session 06 context file with final release results and handoff
+  notes.
+
+**Tests run:**
+
+```bash
+/tmp/congress-py-testpypi/bin/python -c "import congress_py, mcp; print(congress_py.__version__)"
+```
+
+Result: printed `0.2.0` after installing `congress-py[mcp]==0.2.0` from
+TestPyPI.
+
+```bash
+git push origin v0.2.0
+```
+
+Result: pushed the production release tag and triggered the production PyPI
+workflow.
+
+Production PyPI validation was performed by the user after the workflow
+completed. Result: `congress-py[mcp]==0.2.0` installed successfully from
+production PyPI.
+
+**Known issues / follow-ups:**
+
+- Docker image publishing to GHCR is not covered yet.
+- Setuptools license metadata deprecation warnings remain a future maintenance
+  cleanup item.
+- The package publishing workflows are now in place, but GHCR publishing should
+  be handled separately in MCP Session 07.
+
+**Clarification questions and answers:**
+
+- Asked whether to proceed with production PyPI after TestPyPI validation.
+  Answer: yes, sync PyPI after TestPyPI worked.
+- Asked whether workflow files were needed for trusted publishing. Answer:
+  yes, add both `publish-testpypi.yaml` and `publish-pypi.yaml`.
+- Asked whether to work from a branch for the workflow files. Answer: yes.
+
+**Next recommended action:**
+
+Start the next feature session from a fresh branch. The MCP execution plan
+recommends Session 05, optional LLM summarization, before Session 07 container
+publishing.

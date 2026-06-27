@@ -4,13 +4,17 @@
  
 The SDK and CLI layers are stable and published to PyPI. MCP work is now active. MCP tools should remain read-only, thin wrappers around `CongressClient`, and should never duplicate API request logic.
  
-## Current Session
- 
-- `build/mcp/04_add_mcp_server.md` — Add read-only MCP server with `congress mcp-start` CLI entry point and Dockerfile.
+## Current Status
+
+- **Session 04: MCP Server** (`build/mcp/04_add_mcp_server.md`) — Complete.
+- **Session 06: PyPI MCP Extras** (`build/mcp/06_pypi_mcp_extras.md`) — Complete. Version `0.2.0` is published to PyPI with the `mcp` optional extra.
+
+## Next Recommended Session
+
+- **Session 05: LLM Summarization Layer** (`build/mcp/05_llm_summarization.md`) — Add optional summarization of bill summaries using the OpenAI API. Expose as a `congress bills summarize` CLI command and a `summarize_bill` MCP tool. Keep the `openai` dependency optional via `pip install congress-py[llm]`.
+
 ## Future Sessions
  
-- **Session 05: LLM Summarization Layer** (`build/mcp/05_llm_summarization.md`) — Add optional summarization of bill summaries using the OpenAI API. Expose as a `congress bills summarize` CLI command and a `summarize_bill` MCP tool. Keep the `openai` dependency optional via `pip install congress-py[llm]`.
-- **Session 06: PyPI MCP Extras** (`build/mcp/06_pypi_mcp_extras.md`) — Verify and clean up the `mcp` optional dependency group. Test the full install path from PyPI. Bump version to `0.2.0` and cut a new release.
 - **Session 07: Container Publishing** (`build/mcp/07_container_publishing.md`) — Add a GitHub Actions workflow to build and push the Docker image to `ghcr.io/talaniz/congress-py` on release tags. Update documentation with public pull and run instructions including a Claude Desktop config example.
 ## Recommended Session Order
  
