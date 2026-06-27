@@ -16,7 +16,7 @@
         <link rel="prev" href="../cli/">
       
       
-        <link rel="next" href="../api-reference/">
+        <link rel="next" href="../mcp/">
       
       
         
@@ -474,6 +474,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api-reference/" class="md-nav__link">
         
   
@@ -681,10 +708,13 @@ mainly useful for tests or callers that need custom session configuration.</p>
 <code>chambers</code>. <code>get_congresses()</code> returns the raw <code>congresses</code> list from the API.</p>
 <h2 id="bills">Bills</h2>
 <div class="highlight"><pre><span></span><code><span class="n">bills</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bills</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="mi">118</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">recent_bills</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">list_recent_bills</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">bill</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bill</span><span class="p">(</span><span class="mi">118</span><span class="p">,</span> <span class="s2">&quot;hr&quot;</span><span class="p">,</span> <span class="mi">7437</span><span class="p">)</span>
 </code></pre></div>
 <p><code>get_bills()</code> returns a single page of <code>Bill</code> models. It intentionally returns
-only <code>list[Bill]</code>; raw pagination metadata is not exposed by this method.</p>
+only <code>list[Bill]</code>; raw pagination metadata is not exposed by this method.
+<code>list_recent_bills()</code> is a conservative convenience wrapper for the first bill
+listing page and accepts limits from <code>1</code> through <code>250</code>.</p>
 <h2 id="iterating-bill-pages">Iterating bill pages</h2>
 <div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">bill</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">iter_bills</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="mi">118</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">max_pages</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">bill</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">bill</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>

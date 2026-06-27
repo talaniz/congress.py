@@ -410,6 +410,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP server
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -433,6 +444,33 @@
     
   
     SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
   
 
     
@@ -596,6 +634,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP server
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -658,6 +707,12 @@ multi-page iteration through the SDK iterator. When <code>--pages</code> is prov
 </code></pre></div>
 <p>Prefer environment variables or local CLI config for routine use so secrets do
 not appear in shell history.</p>
+<h2 id="mcp-server">MCP server</h2>
+<div class="highlight"><pre><span></span><code>congress<span class="w"> </span>mcp-start
+</code></pre></div>
+<p><code>mcp-start</code> starts the read-only stdio MCP server. It uses the same credential
+resolution order as the rest of the CLI and is intended for local MCP client
+testing.</p>
 
 
 

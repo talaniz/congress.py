@@ -359,6 +359,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api-reference/" class="md-nav__link">
         
   
@@ -481,7 +508,18 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[Unreleased]">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2026-06-27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.2.0] - 2026-06-27
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.2.0] - 2026-06-27">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -604,7 +642,18 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[Unreleased]">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2026-06-27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.2.0] - 2026-06-27
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.2.0] - 2026-06-27">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -709,6 +758,10 @@
 file. This changelog follows the <a href="https://keepachangelog.com/">Keep a Changelog</a>
 style and uses the package version from <code>pyproject.toml</code>.</p>
 <h2 id="unreleased">[Unreleased]</h2>
+<ul>
+<li>No unreleased changes.</li>
+</ul>
+<h2 id="020-2026-06-27">[0.2.0] - 2026-06-27</h2>
 <h3 id="added">Added</h3>
 <ul>
 <li>MkDocs documentation site using MkDocs Material.</li>
@@ -716,6 +769,12 @@ style and uses the package version from <code>pyproject.toml</code>.</p>
   reference, contributing, and changelog.</li>
 <li>mkdocstrings-generated API reference for <code>client.py</code>, <code>models.py</code>, and
   <code>exceptions.py</code>.</li>
+<li><code>CongressClient.list_recent_bills(limit=10)</code> convenience method for safe
+  recent bill discovery.</li>
+<li>Optional MCP server support with read-only bill tools.</li>
+<li><code>congress mcp-start</code> for local stdio MCP server testing.</li>
+<li>Dockerfile for running the MCP server with <code>CONGRESS_API_KEY</code> supplied at
+  runtime.</li>
 </ul>
 <h3 id="changed">Changed</h3>
 <ul>

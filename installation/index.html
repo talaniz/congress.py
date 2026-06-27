@@ -324,6 +324,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#install-from-pypi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install from PyPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-mcp-support-from-pypi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install MCP support from PyPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-from-source" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -350,6 +372,17 @@
     <span class="md-ellipsis">
       
         Install documentation tools
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-mcp-support-from-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install MCP support from source
       
     </span>
   </a>
@@ -444,6 +477,33 @@
     
   
     SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
   
 
     
@@ -575,6 +635,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#install-from-pypi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install from PyPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-mcp-support-from-pypi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install MCP support from PyPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-from-source" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -601,6 +683,17 @@
     <span class="md-ellipsis">
       
         Install documentation tools
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-mcp-support-from-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install MCP support from source
       
     </span>
   </a>
@@ -646,6 +739,12 @@
 </ul>
 <p>Request an API key from the official Congress.gov API site. Keep the key local
 and do not commit it to source control.</p>
+<h2 id="install-from-pypi">Install from PyPI</h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>congress-py
+</code></pre></div>
+<h2 id="install-mcp-support-from-pypi">Install MCP support from PyPI</h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;congress-py[mcp]&quot;</span>
+</code></pre></div>
 <h2 id="install-from-source">Install from source</h2>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/talaniz/congress.py.git
 <span class="nb">cd</span><span class="w"> </span>congress.py
@@ -657,6 +756,9 @@ python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </
 </code></pre></div>
 <h2 id="install-documentation-tools">Install documentation tools</h2>
 <div class="highlight"><pre><span></span><code>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[docs]&quot;</span>
+</code></pre></div>
+<h2 id="install-mcp-support-from-source">Install MCP support from source</h2>
+<div class="highlight"><pre><span></span><code>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[mcp]&quot;</span>
 </code></pre></div>
 <h2 id="build-the-docs-locally">Build the docs locally</h2>
 <div class="highlight"><pre><span></span><code>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict

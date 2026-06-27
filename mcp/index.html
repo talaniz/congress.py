@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://talaniz.github.io/congress.py/quickstart/">
+        <link rel="canonical" href="https://talaniz.github.io/congress.py/mcp/">
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../sdk/">
       
       
-        <link rel="next" href="../cli/">
+        <link rel="next" href="../api-reference/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Quickstart - congress_py</title>
+        <title>MCP Server - congress_py</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart" class="md-skip">
+        <a href="#mcp-server" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quickstart
+              MCP Server
             
           </span>
         </div>
@@ -277,37 +277,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quickstart
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
         
   
   
@@ -323,70 +296,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#configure-an-api-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configure an API key
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-the-sdk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the SDK
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-the-cli" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the CLI
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#start-the-mcp-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Start the MCP server
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -449,10 +358,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../mcp/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -468,6 +404,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-mcp-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install MCP Support
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Tools
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start Locally
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-client-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Client Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -580,10 +591,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configure-an-api-key" class="md-nav__link">
+  <a href="#install-mcp-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configure an API key
+        Install MCP Support
       
     </span>
   </a>
@@ -591,10 +602,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-the-sdk" class="md-nav__link">
+  <a href="#available-tools" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Use the SDK
+        Available Tools
       
     </span>
   </a>
@@ -602,10 +613,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-the-cli" class="md-nav__link">
+  <a href="#start-locally" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Use the CLI
+        Start Locally
       
     </span>
   </a>
@@ -613,10 +624,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#start-the-mcp-server" class="md-nav__link">
+  <a href="#docker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Start the MCP server
+        Docker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-client-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Client Configuration
       
     </span>
   </a>
@@ -643,55 +665,57 @@
   
 
 
-<h1 id="quickstart">Quickstart</h1>
-<h2 id="configure-an-api-key">Configure an API key</h2>
-<p>The SDK accepts an explicit API key. It does not read local CLI config files.</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CONGRESS_API_KEY</span><span class="o">=</span>your_api_key_here
+<h1 id="mcp-server">MCP Server</h1>
+<p><code>congress_py</code> includes an optional read-only MCP server for selected
+Congress.gov bill workflows. The MCP layer calls <code>CongressClient</code>; it does not
+duplicate Congress.gov HTTP logic.</p>
+<h2 id="install-mcp-support">Install MCP Support</h2>
+<p>From PyPI:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;congress-py[mcp]&quot;</span>
 </code></pre></div>
-<p>For CLI-only convenience, you can save a local key:</p>
-<div class="highlight"><pre><span></span><code>congress<span class="w"> </span>configure
+<p>For local development:</p>
+<div class="highlight"><pre><span></span><code>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[mcp]&quot;</span>
 </code></pre></div>
-<p>The CLI resolves credentials in this order:</p>
+<h2 id="available-tools">Available Tools</h2>
+<ul>
+<li><code>get_bill</code></li>
+<li><code>get_bill_actions</code></li>
+<li><code>get_bill_summaries</code></li>
+<li><code>list_recent_bills</code></li>
+</ul>
+<p>Tool output uses the same snake_case JSON-compatible shape as the SDK and CLI.</p>
+<h2 id="start-locally">Start Locally</h2>
+<p>The easiest local entry point is:</p>
+<div class="highlight"><pre><span></span><code>congress<span class="w"> </span>mcp-start
+</code></pre></div>
+<p>The command resolves credentials in the same order as the rest of the CLI:</p>
 <ol>
 <li><code>--api-key</code></li>
 <li><code>CONGRESS_API_KEY</code></li>
 <li><code>~/.congress/config.toml</code></li>
 </ol>
-<p>Normal CLI commands do not prompt for credentials.</p>
-<h2 id="use-the-sdk">Use the SDK</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">congress_py</span><span class="w"> </span><span class="kn">import</span> <span class="n">CongressClient</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">CongressClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CONGRESS_API_KEY&quot;</span><span class="p">])</span>
-
-<span class="n">current</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_current_session</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-<span class="n">bills</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bills</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="mi">118</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">bills</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-
-<span class="n">bill</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bill</span><span class="p">(</span><span class="mi">118</span><span class="p">,</span> <span class="s2">&quot;hr&quot;</span><span class="p">,</span> <span class="mi">7437</span><span class="p">)</span>
-<span class="n">actions</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bill_actions</span><span class="p">(</span><span class="mi">118</span><span class="p">,</span> <span class="s2">&quot;hr&quot;</span><span class="p">,</span> <span class="mi">7437</span><span class="p">)</span>
-<span class="n">summaries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bill_summaries</span><span class="p">(</span><span class="mi">118</span><span class="p">,</span> <span class="s2">&quot;hr&quot;</span><span class="p">,</span> <span class="mi">7437</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">bill</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">actions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">summaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<p>You can also start the MCP module directly:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">CONGRESS_API_KEY</span><span class="o">=</span>your_api_key_here<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>congress_py.mcp_server
 </code></pre></div>
-<h2 id="use-the-cli">Use the CLI</h2>
-<div class="highlight"><pre><span></span><code>congress<span class="w"> </span>congress<span class="w"> </span>current
-congress<span class="w"> </span>bills<span class="w"> </span>list<span class="w"> </span>--session<span class="w"> </span><span class="m">118</span><span class="w"> </span>--limit<span class="w"> </span><span class="m">20</span>
-congress<span class="w"> </span>bills<span class="w"> </span>get<span class="w"> </span><span class="m">118</span><span class="w"> </span>hr<span class="w"> </span><span class="m">7437</span>
-congress<span class="w"> </span>bills<span class="w"> </span>actions<span class="w"> </span><span class="m">118</span><span class="w"> </span>hr<span class="w"> </span><span class="m">7437</span>
-congress<span class="w"> </span>bills<span class="w"> </span>summaries<span class="w"> </span><span class="m">118</span><span class="w"> </span>hr<span class="w"> </span><span class="m">7437</span>
+<p>The server uses stdio transport for local MCP clients.</p>
+<h2 id="docker">Docker</h2>
+<p>Build the image locally:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>congress-py-mcp<span class="w"> </span>.
 </code></pre></div>
-<p>CLI output is JSON by default.</p>
-<h2 id="start-the-mcp-server">Start the MCP server</h2>
-<p>Install the MCP extra, then start the local stdio server:</p>
-<div class="highlight"><pre><span></span><code>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[mcp]&quot;</span>
-congress<span class="w"> </span>mcp-start
+<p>Run it with the API key supplied at runtime:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>-e<span class="w"> </span><span class="nv">CONGRESS_API_KEY</span><span class="o">=</span>your_api_key_here<span class="w"> </span>congress-py-mcp
 </code></pre></div>
+<p>Do not pass API keys as Docker build arguments. Runtime environment variables
+avoid baking secrets into the image.</p>
+<p>The container entry point runs the Python module directly:</p>
+<div class="highlight"><pre><span></span><code><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-m&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;congress_py.mcp_server&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="example-client-configuration">Example Client Configuration</h2>
+<p>For an MCP client that launches a local command, configure the command to run:</p>
+<div class="highlight"><pre><span></span><code>congress<span class="w"> </span>mcp-start
+</code></pre></div>
+<p>For Docker-based local testing, configure the client to run the <code>docker run</code>
+command above with <code>CONGRESS_API_KEY</code> supplied by the environment.</p>
 
 
 

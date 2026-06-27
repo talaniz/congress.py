@@ -428,6 +428,33 @@
   
   
     <li class="md-nav__item">
+      <a href="mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="api-reference/" class="md-nav__link">
         
   
@@ -571,13 +598,12 @@
 
 
 <h1 id="congress_py">congress_py</h1>
-<p><code>congress_py</code> is an unofficial Python SDK and CLI for the Congress.gov API.
-It provides a small, testable interface for reading congressional sessions,
-bills, bill actions, and bill summaries.</p>
-<p>The project is intended to stay compact and readable while it grows toward a
-read-only MCP server for selected Congress.gov workflows. The SDK remains the
-source of truth; the CLI and future MCP tools call the SDK instead of
-duplicating API logic.</p>
+<p><code>congress_py</code> is an unofficial Python SDK, CLI, and read-only MCP server for
+the Congress.gov API. It provides a small, testable interface for reading
+congressional sessions, bills, bill actions, and bill summaries.</p>
+<p>The project is intended to stay compact and readable. The SDK remains the
+source of truth; the CLI and MCP tools call the SDK instead of duplicating API
+logic.</p>
 <div class="admonition warning">
 <p class="admonition-title">Unofficial project</p>
 <p>This project is not affiliated with Congress.gov, the Library of Congress,
@@ -594,7 +620,8 @@ Congress.gov records.</p>
 <li>A <code>CongressClient</code> SDK for read-only API access.</li>
 <li>Typed models for bills, bill actions, and bill summaries.</li>
 <li>A JSON-first <code>congress</code> CLI.</li>
-<li>Mocked tests for SDK and CLI behavior.</li>
+<li>A stdio MCP server for selected read-only bill workflows.</li>
+<li>Mocked tests for SDK, CLI, and MCP behavior.</li>
 </ul>
 <h2 id="start-here">Start here</h2>
 <ul>
@@ -602,6 +629,7 @@ Congress.gov records.</p>
 <li><a href="quickstart/">Quickstart</a></li>
 <li><a href="cli/">CLI usage</a></li>
 <li><a href="sdk/">SDK guide</a></li>
+<li><a href="mcp/">MCP server</a></li>
 <li><a href="api-reference/">API reference</a></li>
 </ul>
 
