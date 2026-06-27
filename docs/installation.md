@@ -29,6 +29,12 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[docs]"
 ```
 
+## Install MCP support
+
+```bash
+.venv/bin/python -m pip install -e ".[mcp]"
+```
+
 ## Build the docs locally
 
 ```bash

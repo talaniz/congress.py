@@ -567,3 +567,126 @@ Final result: `47 passed in 0.19s`.
 **Next recommended action:**
 
 Review and commit the SDK recent-bills change.
+
+## 2026-06-27 - MCP 04: Add MCP Server
+
+**Goal:**
+
+Add a small read-only MCP server backed by `CongressClient`, with local CLI
+startup and Docker support.
+
+**Files changed:**
+
+- `src/congress_py/mcp_server.py`
+- `src/congress_py/cli.py`
+- `pyproject.toml`
+- `tests/test_mcp_server.py`
+- `tests/test_cli.py`
+- `Dockerfile`
+- `.dockerignore`
+- `README.md`
+- `docs/index.md`
+- `docs/installation.md`
+- `docs/quickstart.md`
+- `docs/cli.md`
+- `docs/mcp.md`
+- `docs/changelog.md`
+- `mkdocs.yml`
+- `build/context/04_MCP_Build_Context.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Added optional MCP dependency group: `mcp = ["mcp[cli]>=1.27,<2"]`.
+- Added `src/congress_py/mcp_server.py` with stdio MCP server startup.
+- Exposed read-only MCP tools for `get_bill`, `get_bill_actions`,
+  `get_bill_summaries`, and `list_recent_bills`.
+- Kept MCP tool behavior as thin wrappers around `CongressClient`.
+- Added JSON-compatible snake_case tool output using the existing SDK model
+  shape.
+- Added `congress mcp-start` for local MCP server startup.
+- Kept `congress mcp-start` credential resolution aligned with the CLI:
+  `--api-key`, then `CONGRESS_API_KEY`, then `~/.congress/config.toml`.
+- Added Docker support with module entrypoint:
+  `ENTRYPOINT ["python", "-m", "congress_py.mcp_server"]`.
+- Documented Docker runtime API-key usage with `-e CONGRESS_API_KEY=...` and
+  avoided Docker build args for secrets.
+- Added offline MCP helper tests and CLI startup wiring tests.
+- Added MCP documentation and nav entry.
+- Created `build/context/04_MCP_Build_Context.md` with the approved build
+  context.
+
+**Tests run:**
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result before installing MCP extra: `61 passed in 0.25s`.
+
+```bash
+.venv/bin/python -m pip install -e ".[mcp]"
+```
+
+Initial result: failed in the sandbox because network/DNS access was restricted
+while pip tried to resolve build dependencies.
+
+Second result: passed after network approval. The install resolved
+`mcp 1.28.1`.
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result after installing MCP extra: `61 passed in 0.19s`.
+
+```bash
+.venv/bin/python -c "from congress_py.client import CongressClient; from congress_py.mcp_server import create_server; server = create_server(CongressClient(api_key='test-key')); print(type(server).__name__)"
+```
+
+Result: printed `FastMCP`.
+
+```bash
+.venv/bin/python -m mkdocs build --strict
+```
+
+Result: passed. Material for MkDocs printed its upstream MkDocs 2.0 warning,
+but the command exited successfully.
+
+```bash
+docker build -t congress-py-mcp .
+```
+
+Initial result: not completed because the Docker daemon was not running:
+`Cannot connect to the Docker daemon at unix:///Users/antonioalaniz/.docker/run/docker.sock`.
+
+Final result after starting Docker Desktop: passed.
+
+```bash
+docker run --rm congress-py-mcp
+```
+
+Result: container entrypoint ran and failed cleanly without credentials:
+`No Congress.gov API key found. Run congress configure or set CONGRESS_API_KEY.`
+
+**Known issues / follow-ups:**
+
+- MCP Session 06 should verify the PyPI install path for the `mcp` optional
+  dependency group.
+
+**Clarification questions and answers:**
+
+- Asked whether to use stdio transport. Answer: yes, use the easiest and
+  simplest solution for manual testing.
+- Asked how MCP should be installed. Answer: make it available locally and via
+  Docker; optional extra install was accepted.
+- Asked whether MCP output should use snake_case. Answer: yes.
+- Asked whether Docker should use the CLI entrypoint. Answer: no; Docker should
+  run the SDK/module entrypoint directly.
+- Asked whether runtime environment variables should supply Docker API keys.
+  Answer: yes; runtime env vars are safer than build args.
+
+**Next recommended action:**
+
+Review the MCP server changes, start Docker locally, rerun the Docker build, and
+then commit the MCP Session 04 work.

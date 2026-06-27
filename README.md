@@ -2,8 +2,8 @@
 
 ![Tests](https://github.com/talaniz/congress.py/actions/workflows/python-package.yml/badge.svg)
 
-`congress_py` is an unofficial Python SDK and CLI for reading data from the
-Congress.gov API.
+`congress_py` is an unofficial Python SDK, CLI, and read-only MCP server for
+reading data from the Congress.gov API.
 
 This project is not affiliated with Congress.gov, the Library of Congress,
 Congress, or the U.S. government. It does not provide legal, legislative,
@@ -33,7 +33,8 @@ Full documentation is available at:
 https://talaniz.github.io/congress.py/
 
 The documentation site includes installation steps, API-key setup, SDK examples,
-CLI examples, API reference, contributing guidance, and the changelog.
+CLI examples, MCP server usage, API reference, contributing guidance, and the
+changelog.
 
 ## License
 

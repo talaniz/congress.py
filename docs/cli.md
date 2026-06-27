@@ -60,3 +60,13 @@ congress --api-key your_api_key_here bills get 118 hr 7437
 
 Prefer environment variables or local CLI config for routine use so secrets do
 not appear in shell history.
+
+## MCP server
+
+```bash
+congress mcp-start
+```
+
+`mcp-start` starts the read-only stdio MCP server. It uses the same credential
+resolution order as the rest of the CLI and is intended for local MCP client
+testing.
