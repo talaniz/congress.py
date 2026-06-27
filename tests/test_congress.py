@@ -229,6 +229,49 @@ class TestCongressClient(unittest.TestCase):
         self.assertEqual(query["offset"], ["0"])
 
     @requests_mock.Mocker()
+    def test_list_recent_bills_sends_conservative_default_limit(self, m):
+        """Validate list_recent_bills requests the first page with default limit."""
+        bills_url = "https://api.congress.gov/v3/bill"
+        m.get(bills_url, json={"bills": [self.bill_data()]})
+
+        response = self.congress.list_recent_bills()
+
+        query = self.request_query(m.request_history[0])
+        self.assertEqual(query["api_key"], [self.api_key])
+        self.assertEqual(query["limit"], ["10"])
+        self.assertEqual(query["offset"], ["0"])
+        self.assertIsInstance(response, list)
+        self.assertIsInstance(response[0], Bill)
+        self.assertEqual(response[0].number, "7437")
+
+    @requests_mock.Mocker()
+    def test_list_recent_bills_sends_custom_limit(self, m):
+        """Validate list_recent_bills forwards caller-provided limit."""
+        bills_url = "https://api.congress.gov/v3/bill"
+        m.get(bills_url, json={"bills": [self.bill_data()]})
+
+        self.congress.list_recent_bills(limit=25)
+
+        query = self.request_query(m.request_history[0])
+        self.assertEqual(query["limit"], ["25"])
+        self.assertEqual(query["offset"], ["0"])
+
+    @requests_mock.Mocker()
+    def test_list_recent_bills_rejects_invalid_limits(self, m):
+        """Validate list_recent_bills rejects unsafe limits before requesting."""
+        bills_url = "https://api.congress.gov/v3/bill"
+        m.get(bills_url, json={"bills": [self.bill_data()]})
+
+        for limit in [0, -1, 251]:
+            with self.subTest(limit=limit):
+                with self.assertRaisesRegex(
+                    ValueError, "limit must be between 1 and 250"
+                ):
+                    self.congress.list_recent_bills(limit=limit)
+
+        self.assertEqual(len(m.request_history), 0)
+
+    @requests_mock.Mocker()
     def test_iter_bills_yields_bills_across_pages(self, m):
         """Validate iter_bills keeps fetching until a page has no bills."""
         bills_url = "https://api.congress.gov/v3/bill"

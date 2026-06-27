@@ -185,6 +185,25 @@ class CongressClient:
         data = self._get(self.bill_url, params=params)
         return [Bill.from_api_dict(bill) for bill in data["bills"]]
 
+    def list_recent_bills(self, limit: int = 10):
+        """Return a conservative first page of recent bills.
+        
+        Args:
+            limit: Maximum number of bills to request. Must be between ``1``
+                and ``250``.
+
+        Returns:
+            list[Bill]: Bills parsed from the API response's ``bills`` list.
+
+        Raises:
+            ValueError: If ``limit`` is outside the supported range.
+
+        """
+        if limit < 1 or limit > 250:
+            raise ValueError("limit must be between 1 and 250")
+
+        return self.get_bills(limit=limit, offset=0)
+
     def iter_bills(self, session=None, limit: int = 20, max_pages=None):
         """Yield bills across pages until no bills are returned.
         
