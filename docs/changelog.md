@@ -6,6 +6,10 @@ style and uses the package version from `pyproject.toml`.
 
 ## [Unreleased]
 
+- No unreleased changes.
+
+## [0.2.0] - 2026-06-27
+
 ### Added
 
 - MkDocs documentation site using MkDocs Material.

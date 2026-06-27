@@ -690,3 +690,145 @@ Result: container entrypoint ran and failed cleanly without credentials:
 
 Review the MCP server changes, start Docker locally, rerun the Docker build, and
 then commit the MCP Session 04 work.
+
+## 2026-06-27 - MCP 06: Prepare PyPI MCP Extras Release
+
+**Goal:**
+
+Prepare the `0.2.0` release with MCP extras, validate local install paths, and
+stop before production PyPI upload or release tagging.
+
+**Files changed:**
+
+- `pyproject.toml`
+- `src/congress_py/__init__.py`
+- `docs/installation.md`
+- `docs/mcp.md`
+- `docs/changelog.md`
+- `build/context/06_PyPI_MCP_Extras_Context.md`
+- `build/build_log.md`
+
+**Changes made:**
+
+- Created `build/context/06_PyPI_MCP_Extras_Context.md` for the Session 06
+  release-prep context.
+- Bumped package version from `0.1.0` to `0.2.0` in `pyproject.toml`.
+- Bumped `congress_py.__version__` from `0.1.0` to `0.2.0`.
+- Moved completed MCP and recent-bills changes into a `0.2.0` changelog
+  section.
+- Clarified MCP install docs for PyPI and source installs.
+- Confirmed production PyPI upload and release tagging remain gated behind
+  explicit user approval.
+
+**Tests run:**
+
+```bash
+python3 -m venv /tmp/congress-py-core-install
+/tmp/congress-py-core-install/bin/python -m pip install congress-py
+/tmp/congress-py-core-install/bin/python -c "import importlib.util, congress_py; print(congress_py.__version__); print(importlib.util.find_spec('mcp'))"
+```
+
+Result: installed published `0.1.0`; `mcp` was not installed.
+
+```bash
+python3 -m venv /tmp/congress-py-mcp-install
+/tmp/congress-py-mcp-install/bin/python -m pip install "congress-py[mcp]"
+/tmp/congress-py-mcp-install/bin/python -c "import importlib.util, congress_py; print(congress_py.__version__); print(importlib.util.find_spec('mcp'))"
+```
+
+Result: installed published `0.1.0`; pip warned that `0.1.0` does not provide
+the `mcp` extra; `mcp` was not installed.
+
+```bash
+.venv/bin/python -m pytest
+```
+
+Result: `61 passed in 0.25s`.
+
+```bash
+.venv/bin/python -m mkdocs build --strict
+```
+
+Result: passed. Material for MkDocs printed its upstream MkDocs 2.0 warning,
+but the command exited successfully.
+
+```bash
+.venv/bin/python -m build
+```
+
+Initial result: failed in the sandbox because network/DNS access was restricted
+while the isolated build environment tried to resolve build dependencies.
+
+Second result: passed after network approval. The build produced:
+
+- `dist/congress_py-0.2.0-py3-none-any.whl`
+- `dist/congress_py-0.2.0.tar.gz`
+
+Build warnings: setuptools emitted deprecation warnings for current license
+metadata. This is a follow-up cleanup item, not a release blocker.
+
+```bash
+/tmp/congress-py-020-core/bin/python -m pip install dist/congress_py-0.2.0-py3-none-any.whl
+/tmp/congress-py-020-core/bin/python -c "import importlib.util, congress_py; print(congress_py.__version__); print(importlib.util.find_spec('mcp'))"
+```
+
+Result: local wheel installed as `0.2.0`; `mcp` was not installed.
+
+```bash
+/tmp/congress-py-020-mcp/bin/python -m pip install "dist/congress_py-0.2.0-py3-none-any.whl[mcp]"
+/tmp/congress-py-020-mcp/bin/python -c "import importlib.util, congress_py; print(congress_py.__version__); print(importlib.util.find_spec('mcp') is not None)"
+```
+
+Result: local wheel with MCP extra installed as `0.2.0`; `mcp` was installed.
+
+```bash
+env HOME=/tmp/congress-py-empty-home CONGRESS_API_KEY= /tmp/congress-py-020-mcp/bin/congress mcp-start
+```
+
+Result: failed cleanly without credentials:
+`No Congress.gov API key found. Run congress configure or set CONGRESS_API_KEY.`
+
+```bash
+.venv/bin/python -m twine check dist/congress_py-0.2.0-py3-none-any.whl dist/congress_py-0.2.0.tar.gz
+```
+
+Result: passed for both artifacts.
+
+```bash
+.venv/bin/python -m twine upload --repository testpypi dist/congress_py-0.2.0-py3-none-any.whl dist/congress_py-0.2.0.tar.gz
+```
+
+Result: not uploaded. Twine connected to TestPyPI, reported that trusted
+publishing is not supported from this local environment, then attempted to
+prompt for an API token. The non-interactive prompt failed with `EOFError`. No
+token was provided in chat.
+
+**Known issues / follow-ups:**
+
+- Production PyPI upload was not attempted.
+- `v0.2.0` tag was not created.
+- TestPyPI upload still needs either trusted publishing from GitHub or a
+  TestPyPI API token entered outside chat.
+- `dist/` contains older `0.1.0` artifacts as well as new `0.2.0` artifacts;
+  upload commands should target only the `0.2.0` files or clean `dist/` first.
+- Clean up setuptools license metadata deprecation warnings in a future
+  maintenance session.
+
+**Clarification questions and answers:**
+
+- Asked whether to publish production PyPI automatically. Answer: no, ask for
+  confirmation before doing so.
+- Asked whether to try TestPyPI. Answer: yes.
+- Asked how PyPI publishing is configured. Answer: unclear; slow down and walk
+  through the steps when reaching credentials.
+- Asked whether to create a release tag. Answer: yes, but only with proper
+  alignment after merge and approval.
+- Asked whether to test both current PyPI and built local wheel. Answer: yes.
+- Asked whether to work on a branch. Answer: yes, use branches for release
+  prep and similar changes.
+
+**Next recommended action:**
+
+Commit and push the `feature/release-0.2.0` branch, review/merge it to `main`,
+then decide whether to complete TestPyPI/production PyPI release and create
+`v0.2.0`.

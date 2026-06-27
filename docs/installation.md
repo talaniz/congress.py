@@ -8,6 +8,18 @@
 Request an API key from the official Congress.gov API site. Keep the key local
 and do not commit it to source control.
 
+## Install from PyPI
+
+```bash
+python -m pip install congress-py
+```
+
+## Install MCP support from PyPI
+
+```bash
+python -m pip install "congress-py[mcp]"
+```
+
 ## Install from source
 
 ```bash
@@ -29,7 +41,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[docs]"
 ```
 
-## Install MCP support
+## Install MCP support from source
 
 ```bash
 .venv/bin/python -m pip install -e ".[mcp]"
